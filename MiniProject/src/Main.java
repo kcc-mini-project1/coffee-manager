@@ -1,16 +1,21 @@
-
-
 import java.util.Scanner;
 
+import dao.DataSource;
 import dao.OrderDao;
+import kyeongjun.RenderMain;
+import kyeongjun.RenderTitle;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        DataSource ds = new DataSource();
+        
         boolean run = true;
-
+        
+		RenderMain.printLogoCLI();
+		
         while (run) {
-            System.out.println("=== 전체 관리 시스템 ==="); 
+            RenderTitle.renderTitle("전체 관리 시스템");
             System.out.println("1. 주문 관리");
             System.out.println("2. 직원 관리");
             System.out.println("3. 메뉴 관리");
@@ -21,10 +26,10 @@ public class Main {
 
             switch (input) {
                 case "1":
-//                    new OrderDao().start();
+                    new OrderDao().start();
                     break;
                 case "2":
-//                    new EmployeeDao().start();
+                    empMain.start();
                     break;
                 case "3":
 //                    new MenuDao().start();

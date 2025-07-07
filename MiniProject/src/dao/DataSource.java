@@ -6,6 +6,7 @@ import java.sql.SQLException;
 public class DataSource {
 	private static String driverClassName = "oracle.driver.OracleDriver";
 	private static String url = "jdbc:oracle:thin:@192.168.0.29:1523/XEPDB1";
+
 	private String username = "kcc";
 	private String password = "kcc";
 	
@@ -29,11 +30,9 @@ public class DataSource {
 		}
 		
 		return con;
-		
 	}
 	
 	public void closeConnection(Connection con) {
 		if (con != null) try {con.close();} catch(Exception e) {}
 	}
-
 }
