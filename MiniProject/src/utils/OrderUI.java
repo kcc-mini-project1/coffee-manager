@@ -288,6 +288,7 @@ public class OrderUI {
                     int result = dao.deleteOrderById(orderId);
                     if (result > 0) {
                         System.out.println("주문 취소가 완료되었습니다.");
+                        break;
                     } else {
                         System.out.println("주문 취소 처리 중 오류가 발생했습니다.");
                     }
