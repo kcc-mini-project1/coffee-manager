@@ -1,14 +1,13 @@
 import java.util.Scanner;
 
-import dao.DataSource;
 import dao.OrderDao;
-import kyeongjun.RenderMain;
-import kyeongjun.RenderTitle;
+import utils.RenderMain;
+import utils.RenderTitle;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        DataSource ds = new DataSource();
+        EmployeeMain empMain = new EmployeeMain();
         
         boolean run = true;
         
