@@ -1,4 +1,4 @@
-package kyeongjun;
+package utils;
 
 public class RenderMain {
 	private static final int WIDTH = 84;
