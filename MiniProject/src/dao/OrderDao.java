@@ -51,46 +51,7 @@ public class OrderDao {
         }
     }
     
-    
     //1. 메뉴판
-//    private void menuBoard() {
-//    	try(Connection con = ds.getConnection()){
-//        	String sql = "SELECT   c.parent_name  AS parentName,"
-//    		+ "				m.category_name 	AS categoryName,"
-//    		+ "				m.menu_name 		AS menuName,"
-//    		+ "				m.price 			AS price,"
-//    		+ "				m.description 		AS description, "
-//        		+ "				m.is_soldout 		AS isSoldout,"
-//        		+ "				m.iceable 			AS iceable "
-//			   + "FROM menus m join categories c "
-//			   + "on m.category_name = c.category_name"; 
-//             + "ORDER BY parent_name desc,m.category_name ";
-//    		PreparedStatement stmt = con.prepareStatement(sql);
-//          ResultSet rs = stmt.executeQuery();
-//          System.out.println("~.~.~.~.~.~.~.~.~.~~.~.~.~.~~.~.~.~.~.~.~.~.~.~.~.~.~.~.~~.~.~.~.~~.~.~.~.~~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~~.~.~.~.~.~.~.~.~.~.~.~.~.~.~..~.~.~.~.~.~.~");
-//          System.out.println("                                                   			 메뉴판                                                                                     ");
-//          System.out.println("~.~.~.~.~.~.~.~.~.~~.~.~.~.~~.~.~.~.~.~.~.~.~.~.~.~.~.~.~~.~.~.~.~~.~.~.~.~~.~.~.~.~~.~.~.~.~.~.~.~.~.~.~.~.~.~.~..~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~");
-//	        System.out.println("큰 카테고리		\t 작은 카테고리	\t 메뉴명		\t 가격			\t 메뉴설명		\t솔드아웃		\t아이스 가능 음료");
-//	        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------");
-//	        while(rs.next()) {
-//          System.out.printf("%s	\t	%s	\t	%s	\t	%d	\t	%s	\t	%s	\t	%s\n",
-//          		rs.getString("parentName"),
-//          		rs.getString("categoryName"),
-//          		rs.getString("menuName"),
-//          		rs.getInt("price"),
-//                rs.getString("description"),
-//                (rs.getInt("isSoldout") == 1) ? "품절" : "주문가능",
-//                (rs.getInt("iceable") == 1) ? "가능" : "불가능");
-//          }
-//    	} catch (SQLException e) {
-//    		System.out.println("메뉴판 출력 오류");
-//			e.printStackTrace();
-//		}
-//    }
-    
-    
-    
-    //1. GPT가 알랴준 - 메뉴판 한글 나열 예쁘게 보이기...?ㅎㅎ
     private void menuBoard() {
         try (Connection con = ds.getConnection()) {
             String sql = "SELECT c.parent_name AS parentName, "
@@ -111,7 +72,7 @@ public class OrderDao {
             System.out.println(line);
             System.out.printf("%62s%-62s\n", "", "메뉴판");
             System.out.println(line);
-            System.out.printf(" %-10s  %-10s  %-14s  %-6s   %-8s  %-8s  %-30s\n",
+            System.out.printf(" %-10s  %-10s  %-14s  %-6s	%-8s	%-8s	%-30s\n",
                     "큰카테고리", "작은카테고리", "메뉴명", "가격",  "솔드아웃", "아이스" ,"메뉴설명 ");
             System.out.println(line);
 
@@ -124,7 +85,7 @@ public class OrderDao {
                 String soldout = padKorean((rs.getInt("isSoldout") == 1) ? "솔드아웃" : "주문가능", 8);
                 String ice = padKorean((rs.getInt("iceable") == 1) ? "O" : "X", 8);
 
-                System.out.printf(" %-10s  %-13s  %-14s  %-6d  %-8s  %-8s  %-30s \n",
+                System.out.printf(" %-10s  %-13s  %-14s  %-6d	%-8s	%-8s	%-30s \n",
                         parent, category, name, price, soldout, ice, desc);
             }
 
