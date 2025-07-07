@@ -12,8 +12,6 @@ public class DataSource {
 	
 	static {
 		try {
-			Class.forName(driverClassName);
-			System.out.println("드라이버가 로드되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

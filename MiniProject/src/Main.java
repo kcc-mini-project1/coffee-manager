@@ -21,7 +21,7 @@ public class Main {
             System.out.println("2. 직원 관리");
             System.out.println("3. 메뉴 관리");
             System.out.println("q. 종료");
-            System.out.print(">> ");
+            System.out.print(">>> ");
 
             String input = sc.nextLine();
 
