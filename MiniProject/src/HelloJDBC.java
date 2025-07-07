@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import dao.DataSource;
+
 public class HelloJDBC {
 	public static void main(String[] args) {
 		DataSource ds = new DataSource();
