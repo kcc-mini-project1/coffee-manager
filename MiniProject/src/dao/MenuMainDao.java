@@ -9,7 +9,7 @@ import utils.RenderOptions;
 import utils.RenderTitle;
 
 public class MenuMainDao {
-	public static void main(String[] args) throws Exception {
+	public static void start() throws Exception {
 		MenuInsertDao createMenu = new MenuInsertDao();
 		MenuSelectDao searchMenu = new MenuSelectDao();
 		MenuDeleteDao removeMenu = new MenuDeleteDao();

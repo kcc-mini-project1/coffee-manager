@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
-import dao.OrderDao;
+import dao.MenuMainDao;
+import utils.OrderUI;
 import utils.RenderMain;
 import utils.RenderTitle;
 
@@ -8,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         EmployeeMain empMain = new EmployeeMain();
+        MenuMainDao menuMain = new MenuMainDao();
         
         boolean run = true;
         
@@ -25,13 +27,18 @@ public class Main {
 
             switch (input) {
                 case "1":
-                    new OrderDao().start();
+                	OrderUI.start();
                     break;
                 case "2":
                     empMain.start();
                     break;
                 case "3":
-//                    new MenuDao().start();
+                	try {
+                	menuMain.start();
+                	} catch (Exception e){
+                		e.printStackTrace();
+                	}
+                	
                     break;
                 case "q":
                     System.out.println("종료합니다.");
