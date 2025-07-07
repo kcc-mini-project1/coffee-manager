@@ -1,12 +1,12 @@
-package kyeongjun;
+package utils;
 
 public class RenderTitle {
 	public static final int STARCOUNT = 82;
 	
-	public static String printLine() {
-		String result = "=".repeat(STARCOUNT);
+	public static void printLine() {
+		String stars = "=".repeat(STARCOUNT);
 		
-		return result;
+		System.out.println(stars);
 	}
 	
 	 public static void renderTitle(String title) {
@@ -19,10 +19,11 @@ public class RenderTitle {
 	        int rightPad = blank - leftPad;
 
 	        String titleLine = "= " + " ".repeat(leftPad) +
-	        		title + " ".repeat(rightPad) + " =" + '\n';
+	        		title + " ".repeat(rightPad) + " =";
 
-	        String result = printLine() + '\n' + titleLine + printLine();
-	        System.out.println(result);
+	        printLine();
+	        System.out.println(titleLine);
+	        printLine();
 	    }
 }
 
