@@ -21,9 +21,11 @@ public class RenderTitle {
 	        String titleLine = "= " + " ".repeat(leftPad) +
 	        		title + " ".repeat(rightPad) + " =";
 
+	        System.out.println();
 	        printLine();
 	        System.out.println(titleLine);
 	        printLine();
+	        System.out.println();
 	    }
 }
 
