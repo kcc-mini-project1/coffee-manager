@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-import dao.MenuMainDao;
+import utils.MenuUI;
 import utils.OrderUI;
 import utils.RenderMain;
 import utils.RenderTitle;
@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         EmployeeMain empMain = new EmployeeMain();
-        MenuMainDao menuMain = new MenuMainDao();
+        MenuUI menuUI = new MenuUI();
         
         boolean run = true;
         
@@ -34,7 +34,7 @@ public class Main {
                     break;
                 case "3":
                 	try {
-                	menuMain.start();
+                    	menuUI.startMain();
                 	} catch (Exception e){
                 		e.printStackTrace();
                 	}
