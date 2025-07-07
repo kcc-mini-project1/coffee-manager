@@ -34,5 +34,4 @@ public class DataSource {
 	public void closeConnection(Connection con) {
 		if (con != null) try {con.close();} catch(Exception e) {}
 	}
-	
 }

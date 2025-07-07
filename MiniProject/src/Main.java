@@ -29,7 +29,7 @@ public class Main {
                     new OrderDao().start();
                     break;
                 case "2":
-//                    new EmployeeDao().start();
+                    empMain.start();
                     break;
                 case "3":
 //                    new MenuDao().start();
