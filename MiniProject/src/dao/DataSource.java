@@ -1,3 +1,4 @@
+package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -28,11 +29,10 @@ public class DataSource {
 		}
 		
 		return con;
-		
 	}
 	
 	public void closeConnection(Connection con) {
 		if (con != null) try {con.close();} catch(Exception e) {}
 	}
-
+	
 }
