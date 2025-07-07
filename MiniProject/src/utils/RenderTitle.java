@@ -25,7 +25,6 @@ public class RenderTitle {
 	        printLine();
 	        System.out.println(titleLine);
 	        printLine();
-	        System.out.println();
 	    }
 }
 

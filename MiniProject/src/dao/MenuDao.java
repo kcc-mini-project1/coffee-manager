@@ -42,27 +42,6 @@ public class MenuDao {
 	        }
 		    
 			return columns;
-//			for (int i = 1; i <= columnCount; i++) {
-//				String columnName = rsmd.getColumnName(i);
-//				
-//				if (columnName.equals("CATEGORY_NAME")) {
-//					columnName = String.format("%-12s", "카테고리");
-//				} else if (columnName.equals("MENU_NAME")) {
-//					columnName = String.format("%-14s", "메뉴이름");
-//				} else if (columnName.equals("PRICE")) {
-//					columnName = String.format("%-8s", "메뉴가격");
-//				} else if (columnName.equals("IS_SOLDOUT")) {
-//					columnName = String.format("%-10s", "품절여부");
-//				} else if (columnName.equals("ICEABLE")) {
-//					columnName = String.format("%-10s", "아이스");
-//				} else if (columnName.equals("DESCRIPTION")) {
-//					columnName = String.format("%-24s", "메뉴설명");
-//				}
-//				
-//		    	columns += columnName; 
-//		    }
-//			
-//			return columns;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
@@ -185,9 +164,7 @@ public class MenuDao {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			
-			title.printLine();
-			System.out.println();
-			System.out.println("\n※ 메뉴 정보를 모두 확인했습니다.");
+			System.out.println("\n 메뉴 정보를 조회했습니다.");
 			
 			while(rs.next()) {
 				String menuName = rs.getString("menu_name");
@@ -288,12 +265,10 @@ public class MenuDao {
 			
 			
 			if (updateRow == 0) {
-				System.out.println(targetMenu + " 메뉴 업데이트에 실패했습니다.");
 				throw new RuntimeException();
 			}
 			
 			con.commit();
-			System.out.println("\u2714 " + targetMenu + " 메뉴가 성공적으로 업데이트 되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {con.rollback();} catch (Exception e2) {}
@@ -327,7 +302,6 @@ public class MenuDao {
 			}
 			
 			con.commit();
-			System.out.println("\u2714 " + targetMenu + " 메뉴가 성공적으로 업데이트 되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {con.rollback();} catch (Exception e2) {}
@@ -336,7 +310,8 @@ public class MenuDao {
 			try {con.setAutoCommit(true);} catch (Exception e3) {}
 			ds.closeConnection(con);
 		}
-	}	}
+	}
+}
 	
 
 

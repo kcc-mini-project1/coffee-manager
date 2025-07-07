@@ -21,7 +21,9 @@ public class Main {
             System.out.println("2. 직원 관리");
             System.out.println("3. 메뉴 관리");
             System.out.println("q. 종료");
-            System.out.print(">> ");
+            System.out.println();
+            System.out.println("원하시는 작업 번호를 입력해주세요");
+            System.out.print(">>> ");
 
             String input = sc.nextLine();
 
