@@ -22,7 +22,7 @@ public class OrderUI {
             System.out.println("4. 주문 취소하기");
             System.out.println("5. 포인트 확인하기");
             System.out.println("q. 이전으로");
-            System.out.print(">> ");
+            System.out.print(">>> ");
 
             String input = sc.nextLine();
 
@@ -51,7 +51,6 @@ public class OrderUI {
         }
     }
 	
-	
 	//1.메뉴판 보기
     public static void printMenuBoard() {
         OrderDao dao = new OrderDao();
@@ -76,7 +75,6 @@ public class OrderUI {
             System.out.printf(" %-10s  %-13s  %-14s  %-6d\t%-8s\t%-8s\t%-30s \n",
                     parent, category, name, item.price, soldout, ice, desc);
         }
-
         System.out.println(line);
     }
     
@@ -102,7 +100,8 @@ public class OrderUI {
         try {
             System.out.println();
             RenderTitle.renderTitle(" 메뉴 주문하기 - 카테고리를 선택하세요. ");
-            System.out.print("[큰 카테고리] 1. Drink    2. Desert\n  >> ");
+            System.out.print("[큰 카테고리] 1. Drink    2. Desert \n");
+            System.out.print(">>> ");
             String input = sc.nextLine();
 
             String bigCategoryName = switch (input) {
@@ -110,20 +109,23 @@ public class OrderUI {
                 case "2" -> "Desert";
                 default -> "잘못된 입력입니다.";
             };
-
+            
             System.out.println();
             RenderTitle.renderTitle(" 메뉴 주문하기 - " + bigCategoryName + "의 카테고리를 선택하세요. ");
 
             String smallCategoryName;
             if (bigCategoryName.equals("Drink")) {
-                System.out.print("[Drink] 1. Coffee    2. Tea\n    >> ");
+                System.out.print("[Drink] 1. Coffee    2. Tea   q. 이전으로 \n");
+                System.out.print(">>> ");
                 smallCategoryName = switch (sc.nextLine()) {
                     case "1" -> "Coffee";
                     case "2" -> "Tea";
                     default -> "잘못된 입력입니다.";
                 };
+
             } else {
-                System.out.print("[Desert] 1. Cake    2. Bread\n    >> ");
+                System.out.print("[Desert] 1. Cake    2. Bread   q. 이전으로 \n");
+                System.out.print(">>> ");
                 smallCategoryName = switch (sc.nextLine()) {
                     case "1" -> "Cake";
                     case "2" -> "Bread";
@@ -144,33 +146,52 @@ public class OrderUI {
             }
 
             RenderTitle.renderTitle(" 메뉴 주문하기 ");
-            System.out.print("\n위 목록 중 메뉴명을 입력하세요. (q: 주문종료) >> ");
+            System.out.print("\n 위의 주문 가능한 메뉴리스트에서 주문하실 메뉴명을 입력하세요. (q: 주문종료) \n");
+            System.out.print(">>> ");
             String menuName = sc.nextLine();
             if (menuName.equalsIgnoreCase("q")) return;
             if (!availableMenus.contains(menuName.toLowerCase())) {
-                System.out.println("선택 목록에 없는 메뉴입니다. 주문을 종료합니다.");
+                System.out.println("선택 목록에 없는 메뉴입니다.");
+                System.out.println("주문을 종료합니다.");
                 return;
             }
 
             System.out.println();
-            System.out.print("전화번호를 입력하세요. (q: 주문종료 / 엔터: 비회원) >> ");
+            System.out.print("전화번호를 입력하세요. (q: 주문종료 / 엔터: 비회원)  \n");
+            System.out.print(">>> ");
             String customerId = sc.nextLine();
             if (customerId.equalsIgnoreCase("q")) return;
             if (customerId.isBlank()) customerId = "비회원";
+
+            // 회원이 비회원이 아니면 members 테이블에 존재하는지 확인, 없으면 추가
+            if (!customerId.equals("비회원")) {
+                if (!dao.isMemberExists(customerId)) {
+                    boolean inserted = dao.insertMember(customerId);
+                    if (inserted) {
+                        System.out.println("신규 회원으로 등록되었습니다.");
+                    } else {
+                        System.out.println("회원 등록 중 오류가 발생했습니다.");
+                        return;
+                    }
+                }
+            }
 
             boolean useCoupon = false;
             if (!customerId.equals("비회원")) {
                 ResultSet cpRs = dao.getUserCoupon(customerId);
                 if (cpRs.next() && cpRs.getInt("coupon") > 0) {
-                    System.out.print("사용 가능한 쿠폰이 있습니다. 사용하시겠습니까? (y/n) >> ");
+                    System.out.print("사용 가능한 쿠폰이 있습니다. 사용하시겠습니까? (y/n) \n");
+                    System.out.print(">>> ");
                     useCoupon = sc.nextLine().equalsIgnoreCase("y");
                 }
             }
-
-            System.out.print("요청사항을 입력하세요. (없으면 Enter) >> ");
+            System.out.println();
+            System.out.print("요청사항을 입력하세요. (요청사항 없으면 Enter을 누르세요.) \n ");
+            System.out.print(">>> ");
             String request = sc.nextLine();
-
-            System.out.print("ICE로 주문하시겠습니까? (0: ICE / 1: HOT) >> ");
+            System.out.println();
+            System.out.print("ICE로 주문하시겠습니까? (0: ICE / 1: HOT) \n ");
+            System.out.print(">>> ");
             boolean isIce = sc.nextLine().equalsIgnoreCase("0");
 
             System.out.println("\n입력하신 주문 정보 확인:");
@@ -179,7 +200,10 @@ public class OrderUI {
             System.out.println("요청사항: " + request);
             System.out.println("ICE 여부: " + (isIce ? "ICE" : "HOT"));
             System.out.println("쿠폰 사용: " + (useCoupon ? "사용" : "사용 안 함"));
-            System.out.print("위 정보로 주문하시겠습니까? (y/n) >> ");
+            
+            System.out.println();
+            System.out.print("위 정보로 주문하시겠습니까? (y/n) \n ");
+            System.out.print(">>> ");
             String confirm = sc.nextLine();
             if (!confirm.equalsIgnoreCase("y")) {
                 System.out.println("주문이 취소되었습니다.");
@@ -191,17 +215,15 @@ public class OrderUI {
                 if (useCoupon && !customerId.equals("비회원")) {
                     System.out.println("쿠폰 1장이 사용되었습니다.");
                 }
-                System.out.println("주문이 완료되었습니다.");
-            } else {
-                System.out.println("주문 처리 중 오류가 발생했습니다.");
-            }
-
-        } catch (SQLException e) {
-            System.out.println("주문 오류가 발생했습니다.");
-            e.printStackTrace();
-        }
-    }
-    
+              System.out.println("주문이 완료되었습니다.");
+          } else {
+              System.out.println("주문 처리 중 오류가 발생했습니다.");
+          }
+      } catch (SQLException e) {
+          System.out.println("주문 오류가 발생했습니다.");
+          e.printStackTrace();
+      }
+  }
     
     //3.주문목록 확인
     public static void printOrderList() {
@@ -211,7 +233,6 @@ public class OrderUI {
             RenderTitle.renderTitle("주문내역 확인하기");
             System.out.println("순서 \t 주문번호 \t 회원번호 \t \t주문일		\t주문한 메뉴	 ");
             System.out.println("----------------------------------------------------------------------------------");
-
             int i = 1;
             while (rs.next()) {
                 System.out.printf("%d \t %d \t %s \t %s	\t %s \n",
@@ -236,11 +257,11 @@ public class OrderUI {
         boolean run = true;
 
         try (ResultSet listRs = dao.getRecentOrders()) {
-            System.out.println("=============[ 최근 주문 내역 리스트 ]===============");
-            System.out.println("주문번호\t회원번호\t메뉴명\t주문일자\n");
+            System.out.println("==============================[ 최근 주문 내역 리스트 ]==============================");
+            System.out.println("주문번호	\t회원번호	\t메뉴명	\t주문일자	\n");
 
             while (listRs.next()) {
-                System.out.printf("%d\t%s\t%s\t%s\n",
+                System.out.printf("%d	\t%s	\t%s	\t%s\n",
                         listRs.getInt("order_id"),
                         listRs.getString("customer_id"),
                         listRs.getString("menu_name"),
@@ -251,7 +272,8 @@ public class OrderUI {
 
             while (run) {
                 RenderTitle.renderTitle("주문 취소하기");
-                System.out.print("취소할 주문번호를 입력해주세요. (이전으로: q) >> ");
+                System.out.print("취소할 주문번호를 입력해주세요. (이전으로: q) \n");
+                System.out.print(">>> ");
                 String input = sc.nextLine();
                 if (input.equalsIgnoreCase("q")) break;
 
@@ -270,7 +292,7 @@ public class OrderUI {
                         continue;
                     }
 
-                    System.out.println("\n=============[접수된 주문 정보]=============");
+                    System.out.println("\n ============================[접수된 주문 정보]============================");
                     System.out.println("주문번호: " + rs.getInt("order_id"));
                     System.out.println("주문일자: " + rs.getTimestamp("order_date"));
                     System.out.println("회원번호: " + rs.getString("customer_id"));
@@ -279,10 +301,12 @@ public class OrderUI {
                     System.out.println("ICE 여부: " + (rs.getInt("is_ice") == 1 ? "ICE" : "HOT"));
                     System.out.println("쿠폰 사용 여부: " + (rs.getInt("use_coupon") == 1 ? "사용" : "사용 안 함"));
 
-                    System.out.print("\n정말 이 주문을 취소하시겠습니까? (y/n) >> ");
+                    System.out.print("\n정말 이 주문을 취소하시겠습니까? (y/n) \n");
+                    System.out.print(">>> ");
                     String confirm = sc.nextLine();
                     if (!confirm.equalsIgnoreCase("y")) {
                         System.out.println("주문 취소가 취소되었습니다.");
+                        continue;
                     }
 
                     int result = dao.deleteOrderById(orderId);
@@ -298,7 +322,6 @@ public class OrderUI {
                     e.printStackTrace();
                 }
             }
-            
         } catch (SQLException e) {
             System.out.println("주문 취소 중 오류가 발생했습니다.");
             e.printStackTrace();
@@ -309,10 +332,10 @@ public class OrderUI {
     //5.포인트내역 확인하기
     public static void checkPoint() {
         OrderDao dao = new OrderDao();
-
         try {
             RenderTitle.renderTitle(" 포인트 확인하기 ");
-            System.out.print("회원번호를 입력해주세요. (이전으로 : q) >> ");
+            System.out.print("회원번호를 입력해주세요. (이전으로 : q) \n");
+            System.out.print(">>> ");
             String customerId = sc.nextLine().trim();
             if (customerId.equalsIgnoreCase("q")) return;
 
@@ -328,7 +351,6 @@ public class OrderUI {
             } else {
                 System.out.println("회원 정보를 찾을 수 없습니다.");
             }
-
         } catch (SQLException e) {
             System.out.println("포인트 조회 중 오류가 발생했습니다.");
             e.printStackTrace();

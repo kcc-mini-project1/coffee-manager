@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OrderDao {
     private DataSource ds = new DataSource();
-
+    
     	//1.메뉴판
         public static class MenuItem {
             public String parentName;
@@ -25,7 +25,7 @@ public class OrderDao {
 
         public List<MenuItem> getMenuItems() {
             List<MenuItem> menuList = new ArrayList<>();
-
+            
             String sql = "SELECT c.parent_name AS parentName, "
                        + "       m.category_name AS categoryName, "
                        + "       m.menu_name AS menuName, "
@@ -62,10 +62,12 @@ public class OrderDao {
             return menuList;
         }
 
-    
-        //2.주문하기
+   
+        
+        //02. 주문하기
         public boolean insertOrder(String customerId, String menuName, String request, boolean isIce, boolean useCoupon) {
             try (Connection con = ds.getConnection()) {
+                // 1. 주문 insert
                 String orderSql = "INSERT INTO orders (order_id, order_date, customer_id, menu_name, request, is_ice, use_coupon) " +
                                   "VALUES (order_seq.nextval, SYSDATE, ?, ?, ?, ?, ?)";
                 PreparedStatement stmt = con.prepareStatement(orderSql);
@@ -76,11 +78,37 @@ public class OrderDao {
                 stmt.setInt(5, useCoupon ? 1 : 0);
                 stmt.executeUpdate();
 
+                // 2. 쿠폰 사용 시 차감
                 if (useCoupon && !customerId.equals("비회원")) {
                     String updateCouponSql = "UPDATE members SET coupon = coupon - 1 WHERE customer_id = ?";
-                    PreparedStatement updateStmt = con.prepareStatement(updateCouponSql);
-                    updateStmt.setString(1, customerId);
-                    updateStmt.executeUpdate();
+                    PreparedStatement updateCouponStmt = con.prepareStatement(updateCouponSql);
+                    updateCouponStmt.setString(1, customerId);
+                    updateCouponStmt.executeUpdate();
+                }
+
+                // 3. 스탬프 1 증가 (비회원 제외)
+                if (!customerId.equals("비회원")) {
+                    String updateStampSql = "UPDATE members SET stamp = stamp + 1 WHERE customer_id = ?";
+                    PreparedStatement updateStampStmt = con.prepareStatement(updateStampSql);
+                    updateStampStmt.setString(1, customerId);
+                    updateStampStmt.executeUpdate();
+
+                    // 4. 스탬프가 10 이상이면 -> 스탬프 -10, 쿠폰 +1
+                    String checkSql = "SELECT stamp FROM members WHERE customer_id = ?";
+                    PreparedStatement checkStmt = con.prepareStatement(checkSql);
+                    checkStmt.setString(1, customerId);
+                    ResultSet rs = checkStmt.executeQuery();
+
+                    if (rs.next()) {
+                        int stamp = rs.getInt("stamp");
+                        if (stamp >= 10) {
+                            String rewardSql = "UPDATE members SET stamp = stamp - 10, coupon = coupon + 1 WHERE customer_id = ?";
+                            PreparedStatement rewardStmt = con.prepareStatement(rewardSql);
+                            rewardStmt.setString(1, customerId);
+                            rewardStmt.executeUpdate();
+                            System.out.println("스탬프 10개 달성! 쿠폰 1장이 발급되었습니다.");
+                        }
+                    }
                 }
 
                 return true;
@@ -90,23 +118,49 @@ public class OrderDao {
             }
         }
 
-        public ResultSet getAvailableMenus(String categoryName) throws SQLException {
-            Connection con = ds.getConnection();
-            String sql = "SELECT menu_name, price FROM menus WHERE category_name = ? AND is_soldout = 0";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, categoryName);
-            return stmt.executeQuery();
+        //기존 회원인가 확인
+        public boolean isMemberExists(String customerId) throws SQLException {
+            String sql = "SELECT 1 FROM members WHERE customer_id = ?";
+            try (Connection con = ds.getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, customerId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    return rs.next();
+                }
+            }
         }
+
+        
+        public boolean insertMember(String customerId) throws SQLException {
+            String sql = "INSERT INTO members (customer_id, stamp, coupon) VALUES (?, 0, 0)";
+            try (Connection con = ds.getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, customerId);
+                return ps.executeUpdate() > 0;
+            }
+        }
+
 
         public ResultSet getUserCoupon(String customerId) throws SQLException {
             Connection con = ds.getConnection();
             String sql = "SELECT coupon FROM members WHERE customer_id = ?";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, customerId);
-            return stmt.executeQuery();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, customerId);
+            return ps.executeQuery();
         }
 
+
+        public ResultSet getAvailableMenus(String smallCategoryName) throws SQLException {
+            Connection con = ds.getConnection();
+            String sql = "SELECT menu_name, price FROM menus WHERE category_name = ? AND is_soldout = 0";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, smallCategoryName);
+            return stmt.executeQuery();
+        }
+		
+		
     
+        
         // 3. 주문내역 확인하기
         public ResultSet getOrderList() throws SQLException {
             Connection con = ds.getConnection();
@@ -120,7 +174,6 @@ public class OrderDao {
             PreparedStatement stmt = con.prepareStatement(sql);
             return stmt.executeQuery();
         }
-    
     
     
     
@@ -165,5 +218,7 @@ public class OrderDao {
             stmt.setString(1, customerId);
             return stmt.executeQuery();
         }
+
+
 
 }
