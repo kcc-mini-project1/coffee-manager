@@ -2,19 +2,19 @@ package utils;
 
 public class RenderMain {
 	private static final int WIDTH = 84;
-    static final String coffeeEmoji = new String(Character.toChars(0x2615));
+             
     static final String TITLELOGO = "\r\n"
-            + "     ██  █████  ██    ██  █████  ██████  ██████  ███████ ███████ ███████  ██████    ;)( ;\r\n"
-            + "     ██ ██   ██ ██    ██ ██   ██ ██   ██ ██   ██ ██      ██      ██      ██    ██  :----:\r\n"
-            + "     ██ ███████ ██    ██ ███████ ██████  ██████  █████   ███████ ███████ ██    ██ C|====|\r\n"
-            + "██   ██ ██   ██  ██  ██  ██   ██ ██      ██   ██ ██           ██      ██ ██    ██  |    |\r\n"
-            + " █████  ██   ██   ████   ██   ██ ██      ██   ██ ███████ ███████ ███████  ██████   `----'\r\n"
-            + "                                                                                         \r\n";
+    		+ "                  ██  █████  ██    ██  █████  ██████  ██████  ███████ ███████ ███████  ██████    ;)( ;             \r\n"
+    		+ "                  ██ ██   ██ ██    ██ ██   ██ ██   ██ ██   ██ ██      ██      ██      ██    ██  :----:             \r\n"
+    		+ "                  ██ ███████ ██    ██ ███████ ██████  ██████  █████   ███████ ███████ ██    ██ C|====|             \r\n"
+    		+ "             ██   ██ ██   ██  ██  ██  ██   ██ ██      ██   ██ ██           ██      ██ ██    ██  |    |             \r\n"
+    		+ "              █████  ██   ██   ████   ██   ██ ██      ██   ██ ███████ ███████ ███████  ██████   `----'             \r\n"
+    		+ "                                                                                                                   \r\n";
 
-    static final String SLOGAN = 
-            "╔══════════════════════════════════════════════╗\n" +
-            "║            "+coffeeEmoji+" 빠른 행복의 시작 자바프레소 "+coffeeEmoji+"         ║      \n" +
-            "╚══════════════════════════════════════════════╝";
+    static final String SLOGAN =
+    		"             ╔═════════════════════════════════════════════════════════════════════════╗\n" +
+    		"             ║                       빠른 행복의 시작 자바프레소                       ║\n" +
+    		"             ╚═════════════════════════════════════════════════════════════════════════╝";
     
     public static void alignCenterText(String text) {
         String[] lines = text.split("\n");
@@ -27,7 +27,7 @@ public class RenderMain {
     }
  
     public static void printLogoCLI() {
-    	System.out.println(TITLELOGO);
-		alignCenterText(SLOGAN);
+	    	System.out.print(RenderTitle.colorize(TITLELOGO, "pink"));
+	    	System.out.println(SLOGAN);
     }
 }
