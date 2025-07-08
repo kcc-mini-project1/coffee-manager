@@ -92,6 +92,17 @@ public class RenderSystem {
 		System.out.println(colorize(divider, "blue"));
 	}
 	
+	public void printSubTitle(int size, String subTitle, boolean underline) {
+		int blankSize = (int)(Math.round((size - (subTitle.length() * 1.5)) / 2));
+		
+		String divider = "=".repeat(size);
+		String content = " ".repeat(blankSize) + subTitle;
+
+		System.out.println(colorize(divider, "blue"));
+		System.out.println(colorize(content, "blue"));
+		if (underline) System.out.println(colorize(divider, "blue"));
+	}
+	
 	// 사용자로부터 입력 요청메시지 출력
 	public void printInputForm() {
 		System.out.print("원하시는 작업을 입력해주세요.\n>>> ");
@@ -113,6 +124,7 @@ public class RenderSystem {
 		System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
 	}
 	
+	// 문자열 배열 단일행 출력
     public void printSingleMenu(List<String> options) {
 		int PADDING = 2;
 	    String pad = " ".repeat(PADDING);
@@ -124,12 +136,14 @@ public class RenderSystem {
 	    System.out.println();
 	}
 
+    // 문자열 배열 복수행 출력
 	public void printMultiMenu(List<String> options) {
 	    for (int i = 0; i < options.size(); i++) {
 	        System.out.println((i + 1) + ". " + options.get(i));
 	    }
 	}
 	
+	// 쿠폰갯수 시각화
 	public String printStamp(int currentStamp) {
 	    int MAX_STAMP = 10;
 
@@ -143,6 +157,7 @@ public class RenderSystem {
 	    return coupon + currentStamp + "/" + MAX_STAMP;
 	}
 	
+	// 원화 숫자 포맷
 	public String formatWon(int amount) {
 	    return String.format("%,d원", amount);
 	}
