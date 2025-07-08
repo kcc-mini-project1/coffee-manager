@@ -10,7 +10,7 @@ public class RenderTitle {
 	}
 	
 	 public static void renderTitle(String title) {
-	        int innerWidth = STARCOUNT - 4;
+	        int innerWidth = STARCOUNT;
 
 	        int blank = innerWidth - title.length();
 	        if (blank < 0) blank = 0;
@@ -18,12 +18,10 @@ public class RenderTitle {
 	        int leftPad  = blank / 2;
 	        int rightPad = blank - leftPad;
 
-	        String titleLine = "= " + " ".repeat(leftPad) +
-	        		title + " ".repeat(rightPad) + " =";
+	        String contentLine = " ".repeat(leftPad) + title + " ".repeat(rightPad);
 
-	        System.out.println();
 	        printLine();
-	        System.out.println(titleLine);
+	        System.out.println(contentLine);
 	        printLine();
 	    }
 }

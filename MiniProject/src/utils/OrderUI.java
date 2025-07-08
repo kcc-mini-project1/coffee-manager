@@ -22,6 +22,7 @@ public class OrderUI {
             System.out.println("4. 주문 취소하기");
             System.out.println("5. 포인트 확인하기");
             System.out.println("q. 이전으로");
+            RenderTitle.printLine();
             System.out.print(">>> ");
 
             String input = sc.nextLine();
@@ -136,7 +137,8 @@ public class OrderUI {
             OrderDao dao = new OrderDao();
             ResultSet menuRs = dao.getAvailableMenus(smallCategoryName);
 
-            System.out.println("\n ==========<  [" + smallCategoryName + "] 카테고리 - 주문 가능한 메뉴 목록 >===============");
+            RenderTitle.renderTitle(" 메뉴 주문하기 ");
+            System.out.println("[" + smallCategoryName + "] 카테고리 - 주문 가능한 메뉴 목록");
             List<String> availableMenus = new ArrayList<>();
             while (menuRs.next()) {
                 String menu = menuRs.getString("menu_name");
@@ -144,8 +146,7 @@ public class OrderUI {
                 System.out.println("\u2714 " + menu + " (" + price + "원)");
                 availableMenus.add(menu.toLowerCase());
             }
-
-            RenderTitle.renderTitle(" 메뉴 주문하기 ");
+            RenderTitle.printLine();
             System.out.print("\n 위의 주문 가능한 메뉴리스트에서 주문하실 메뉴명을 입력하세요. (q: 주문종료) \n");
             System.out.print(">>> ");
             String menuName = sc.nextLine();
@@ -186,22 +187,22 @@ public class OrderUI {
                 }
             }
             System.out.println();
-            System.out.print("요청사항을 입력하세요. (요청사항 없으면 Enter을 누르세요.) \n ");
+            System.out.println("요청사항을 입력하세요. (요청사항 없으면 Enter을 누르세요.)");
             System.out.print(">>> ");
             String request = sc.nextLine();
             System.out.println();
-            System.out.print("ICE로 주문하시겠습니까? (0: ICE / 1: HOT) \n ");
+            System.out.println("\"ICE로 주문하시겠습니까? (1: ICE / 0: HOT)");
             System.out.print(">>> ");
             boolean isIce = sc.nextLine().equalsIgnoreCase("0");
 
-            System.out.println("\n입력하신 주문 정보 확인:");
+            System.out.println();
+            RenderTitle.renderTitle("입력하신 주문 정보 확인");
             System.out.println("회원번호: " + customerId);
             System.out.println("메뉴명: " + menuName);
             System.out.println("요청사항: " + request);
             System.out.println("ICE 여부: " + (isIce ? "ICE" : "HOT"));
             System.out.println("쿠폰 사용: " + (useCoupon ? "사용" : "사용 안 함"));
-            
-            System.out.println();
+            RenderTitle.printLine();
             System.out.print("위 정보로 주문하시겠습니까? (y/n) \n ");
             System.out.print(">>> ");
             String confirm = sc.nextLine();

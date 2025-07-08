@@ -35,6 +35,7 @@ public class EmployeeUI {
 			String inputSalary;
 			
 			while (true) {
+				System.out.println();
 				title.renderTitle("추가할 직원 정보 입력하기");
 				System.out.println("직원의 이름을 입력하세요.");
 				System.out.print(">>> ");
@@ -52,14 +53,13 @@ public class EmployeeUI {
 				System.out.print(">>> ");
 				inputSalary = read.nextLine();
 				
+				System.out.println();
 				title.renderTitle("입력한 직원정보");
 				System.out.printf("%-6s: %s\n", "이름", inputName);
 				System.out.printf("%-5s: %s\n", "전화번호", inputPhoneNumber);
 				System.out.printf("%-6s: %s\n", "직급", inputTitle);
 				System.out.printf("%-6s: %s\n", "급여", inputSalary);
 				title.printLine();
-				
-				System.out.println();
 				System.out.println("입력하신 정보가 맞으시면 'Y'를 입력해주세요.");
 				System.out.print(">>> ");
 				String inputOK = read.nextLine();

@@ -29,6 +29,5 @@ public class RenderMain {
     public static void printLogoCLI() {
     	System.out.println(TITLELOGO);
 		alignCenterText(SLOGAN);
-		alignCenterText("=========== 카페관리 프로그램을 시작합니다. ===========");
     }
 }

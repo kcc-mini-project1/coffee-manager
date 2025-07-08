@@ -164,8 +164,6 @@ public class MenuDao {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			
-			System.out.println("\n 메뉴 정보를 조회했습니다.");
-			
 			while(rs.next()) {
 				String menuName = rs.getString("menu_name");
 				menuList.add(menuName);
