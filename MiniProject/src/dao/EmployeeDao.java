@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class EmployeeDao {
 	
-	public void insertEmployee(Connection con, String name, String phone, String title, String salary) {
+	public int insertEmployee(Connection con, String name, String phone, String title, String salary) {
 		try {
 			String sql = "INSERT INTO employees "
 					+ "(employee_id, employee_name, phone_number, title, salary) "
@@ -17,15 +17,10 @@ public class EmployeeDao {
 			stmt.setString(2, phone);
 			stmt.setString(3, title);
 			stmt.setInt(4, Integer.parseInt(salary));
-			int insertRowSize = stmt.executeUpdate();
-			
-			if (insertRowSize == 1) {
-				System.out.println("직원 정보 입력이 완료되었습니다.");				
-			} else {
-				System.out.println("직원 정보 추가에 실패했습니다.");
-			}
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	

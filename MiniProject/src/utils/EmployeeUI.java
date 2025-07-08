@@ -90,15 +90,18 @@ public class EmployeeUI {
 				
 				// 입력한 모든 정보 출력하기
 				renderSys.printTitle(displaySize, "입력한 직원정보");
-				System.out.printf("%-6s: %s\n", "이름", inputName);
-				System.out.printf("%-5s: %s\n", "전화번호", inputPhoneNumber);
-				System.out.printf("%-6s: %s\n", "직급", inputTitle);
-				System.out.printf("%-6s: %s\n", "급여", inputSalary);
+				System.out.printf("\u2714 %-6s: %s\n", "이       름", inputName);
+				System.out.printf("\u2714 %-5s: %s\n", "전 화 번 호", inputPhoneNumber);
+				System.out.printf("\u2714 %-6s: %s\n", "직       급", inputTitle);
+				System.out.printf("\u2714 %-6s: %s\n", "급       여", inputSalary);
 				renderSys.printDivider(displaySize, true);
 				
 				// 등록하려는 정보가 제대로 입력되었는지 확인
 				renderSys.printInputFormMessage("입력하신 정보가 맞으시면 'y'를 입력해주세요.");
 				String inputOK = read.nextLine();
+				renderSys.printEmptyLine(2);
+				
+				// 입력 확인
 				if (inputOK.equals("Y") || inputOK.equals("y") || inputOK.equals("ㅂ")) { break; }
 				System.out.println("직원 정보를 다시 입력해주세요.");
 				renderSys.printEmptyLine(2);
@@ -106,7 +109,15 @@ public class EmployeeUI {
 			
 			// 입력받은 정보를 DB에 추가
 			con = ds.getConnection();
-			empDao.insertEmployee(con, inputName, inputPhoneNumber, inputTitle, inputSalary);
+			
+			int successInsert = empDao.insertEmployee(con, inputName, inputPhoneNumber, inputTitle, inputSalary);
+			if (successInsert == 1) {
+				System.out.println("새로운 직원 정보 등록이 완료되었습니다.");
+				renderSys.printEmptyLine(2);
+			} else {
+				System.out.println("새로운 직원 정보 등록에 실패했습니다.");
+				renderSys.printEmptyLine(2);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			renderSys.printEmptyLine(2);
