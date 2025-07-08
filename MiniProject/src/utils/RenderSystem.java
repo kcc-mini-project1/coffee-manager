@@ -33,9 +33,13 @@ public class RenderSystem {
 	
 	// 부제목 출력
 	public void printSubTitle(int size, String subTitle) {
-		int sideSize = (int)(Math.round((size - (subTitle.length() * 1.5)) / 2));
-		String content = "=".repeat(sideSize - 5) + "<<<  " + subTitle + "  >>>" + "=".repeat(sideSize - 5);  
+		int blankSize = (int)(Math.round((size - (subTitle.length() * 1.5)) / 2));
+		
+		String divider = "=".repeat(size);
+		String content = " ".repeat(blankSize) + subTitle;
+		System.out.println(divider);
 		System.out.println(content);
+		System.out.println(divider);
 	}
 	
 	// 사용자로부터 입력 요청메시지 출력

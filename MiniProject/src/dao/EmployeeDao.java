@@ -69,7 +69,7 @@ public class EmployeeDao {
 		}
 	}
 	
-	public void updateEmployeeName(Connection con, String id, String name) {
+	public int updateEmployeeName(Connection con, String id, String name) {
 		try {
 			String sql = "UPDATE employees "
 					+ "SET employee_name = ? "
@@ -78,18 +78,14 @@ public class EmployeeDao {
 			stmt.setString(1,  name);
 			stmt.setInt(2,  Integer.parseInt(id));
 			
-			int resultUpdate = stmt.executeUpdate();
-			if (resultUpdate == 1) {
-				System.out.println("직원 정보 수정이 완료되었습니다.");
-			} else {
-				System.out.println("수정에 실패했습니다. 다시 시도해주세요.");
-			}
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	
-	public void updateEmployeePhone(Connection con, String id, String phone) {
+	public int updateEmployeePhone(Connection con, String id, String phone) {
 		try {
 			String sql = "UPDATE employees "
 					+ "SET phone_number = ? "
@@ -98,18 +94,14 @@ public class EmployeeDao {
 			stmt.setString(1,  phone);
 			stmt.setInt(2,  Integer.parseInt(id));
 			
-			int resultUpdate = stmt.executeUpdate();
-			if (resultUpdate == 1) {
-				System.out.println("직원 정보 수정이 완료되었습니다.");
-			} else {
-				System.out.println("수정에 실패했습니다. 다시 시도해주세요.");
-			}
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	
-	public void updateEmployeeSalary(Connection con, String id, String salary) {
+	public int updateEmployeeSalary(Connection con, String id, String salary) {
 		try {
 			String sql = "UPDATE employees "
 					+ "SET salary = ? "
@@ -118,18 +110,14 @@ public class EmployeeDao {
 			stmt.setString(1,  salary);
 			stmt.setInt(2,  Integer.parseInt(id));
 			
-			int resultUpdate = stmt.executeUpdate();
-			if (resultUpdate == 1) {
-				System.out.println("직원 정보 수정이 완료되었습니다.");
-			} else {
-				System.out.println("수정에 실패했습니다. 다시 시도해주세요.");
-			}
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	
-	public void updateEmployeeTitle(Connection con, String id, String title) {
+	public int updateEmployeeTitle(Connection con, String id, String title) {
 		try {
 			String sql = "UPDATE employees "
 					+ "SET title = ? "
@@ -138,18 +126,14 @@ public class EmployeeDao {
 			stmt.setString(1,  title);
 			stmt.setInt(2,  Integer.parseInt(id));
 			
-			int resultUpdate = stmt.executeUpdate();
-			if (resultUpdate == 1) {
-				System.out.println("직원 정보 수정이 완료되었습니다.");
-			} else {
-				System.out.println("수정에 실패했습니다. 다시 시도해주세요.");
-			}
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	
-	public void updateEmployeeManager(Connection con, String id, String manager_id) {
+	public int updateEmployeeManager(Connection con, String id, String manager_id) {
 		try {
 			String sql = "UPDATE employees "
 					+ "SET manager_id = ? "
@@ -158,14 +142,10 @@ public class EmployeeDao {
 			stmt.setString(1,  manager_id);
 			stmt.setInt(2,  Integer.parseInt(id));
 			
-			int resultUpdate = stmt.executeUpdate();
-			if (resultUpdate == 1) {
-				System.out.println("직원 정보 수정이 완료되었습니다.");
-			} else {
-				System.out.println("수정에 실패했습니다. 다시 시도해주세요.");
-			}
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	
@@ -180,17 +160,15 @@ public class EmployeeDao {
 		}
 	}
 	
-	public void deleteEmployee(Connection con, String id) {
+	public int deleteEmployee(Connection con, String id) {
 		try {
 			String sql = "DELETE FROM employees WHERE employee_id = ?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, Integer.parseInt(id));
-			int resultDelete = stmt.executeUpdate();
-			
-			if (resultDelete != 1) { System.out.println("삭제에 실패했습니다. 다시 시도해주세요."); }
-			else { System.out.println("직원 정보 삭제가 완료되었습니다."); }
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 }
