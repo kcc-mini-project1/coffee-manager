@@ -1,38 +1,31 @@
 package utils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.DataSource;
 import dao.MenuDao;
 
 public class MenuUI {
-	static RenderTitle title = new RenderTitle();
-	static RenderOptions options = new RenderOptions();
+	private static RenderSystem renderSys = new RenderSystem();
+
 	static MenuDao menuDao = new MenuDao();
 	
-	public static void startMain() throws Exception {
+	public void startMain() throws Exception {
 		Scanner scanner = new Scanner(System.in);
 
 		while (true) {
-			System.out.println();
-			title.renderTitle("메뉴 관리 시스템");
-			System.out.println("1. 메뉴 조회하기");
-			System.out.println("2. 메뉴 추가하기");
-			System.out.println("3. 메뉴 수정하기");
-			System.out.println("4. 메뉴 삭제하기");
-			System.out.println("q. 이전 단계로");
-			title.printLine();
-			System.out.println("원하시는 작업 번호를 입력해주세요");
-			System.out.print(">>> ");
+			renderSys.printEmptyLine(1);
+			renderSys.printTitle(renderSys.WIDTH, "메뉴 관리 시스템");
+			System.out.print("1. 메뉴 조회하기\n"
+					+ "2. 메뉴 추가하기\n"
+					+ "3. 메뉴 삭제하기\n"
+					+ "4. 메뉴 수정하기\n"
+					+ "q. 이전 단계로\n");
+			renderSys.printEmptyLine(1);
+			renderSys.printInputForm();
 			
 			String input = scanner.nextLine().trim();
 			
@@ -54,33 +47,16 @@ public class MenuUI {
 		        continue;
 		    }
 		    
-			System.out.println();
+			renderSys.printEmptyLine(1);
 			if (action == 1) {
-				title.renderTitle("메뉴 조회하기");
+				OrderUI.printMenuBoard();
 				
-				try {
-					List<String> menuHeader = menuDao.getMenuHeader();
-					
-					for (String col : menuHeader) {
-						System.out.print(formatColumnName(col));
-					}
-					
-					System.out.println();
-					title.printLine();
-					
-					menuDao.printMenuRows();
-				} catch (RuntimeException e) {
-					System.out.println(e.getMessage());
-					
-					break;
-				} finally {
-					System.out.println("\n[엔터를 누르면 이전 메뉴로 돌아갑니다]");
-					scanner.nextLine();
-				}
+				System.out.println("\n[엔터를 누르면 이전 메뉴로 돌아갑니다]");
+				scanner.nextLine();
 				
 				continue;
 			} else if (action == 2) {
-				title.renderTitle("메뉴 추가하기");
+				renderSys.printSubTitle(renderSys.WIDTH, "메뉴 추가하기");
 				
 				List<String> subCategories = new ArrayList<>();
 				List<String> categories = new ArrayList<>();
@@ -92,10 +68,10 @@ public class MenuUI {
 				    subCategory = null;
 
 					categories = menuDao.getParentCategories();
-					options.singleLine(categories);
-					title.printLine();
-					System.out.println("추가할 메뉴의 대분류 번호를 선택하세요.");
-					System.out.print(">>> ");
+					renderSys.printSingleMenu(categories);
+					renderSys.printDivider(renderSys.WIDTH, false);
+					renderSys.printInputFormMessage("추가할 메뉴의 대분류 번호를 선택하세요.");
+					
 					int index =  -1;
 					
 					try {
@@ -127,12 +103,11 @@ public class MenuUI {
 						continue;
 					}
 					
-					System.out.println();
-					title.printLine();
-					options.singleLine(subCategories);
-					title.printLine();
-					System.out.println("추가할 메뉴의 소분류 번호를 선택하세요.");
-					System.out.print(">>> ");
+					renderSys.printEmptyLine(1);
+					renderSys.printDivider(renderSys.WIDTH, false);
+					renderSys.printSingleMenu(subCategories);
+					renderSys.printDivider(renderSys.WIDTH, false);
+					renderSys.printInputFormMessage("추가할 메뉴의 소분류 번호를 선택하세요.");
 					index =  -1;
 					
 					try {
@@ -155,14 +130,12 @@ public class MenuUI {
 							continue;
 					}
 
-					System.out.println();
-					System.out.println("추가할 메뉴의 이름을 입력해주세요. ex) 아메리카노");
-					System.out.print(">>> ");
+					renderSys.printEmptyLine(1);
+					renderSys.printInputFormMessage("추가할 메뉴의 이름을 입력해주세요. ex) 아메리카노");
 					menuName = scanner.next();
 			
-					System.out.println();
-					System.out.println("추가할 메뉴의 가격을 입력하세요. ex) 4000");
-					System.out.print(">>> ");
+					renderSys.printEmptyLine(1);
+					renderSys.printInputFormMessage("\"추가할 메뉴의 가격을 입력하세요. ex) 4000\"");
 					try {
 						price = scanner.nextInt();
 				    } catch (InputMismatchException e) {
@@ -172,15 +145,13 @@ public class MenuUI {
 				        continue;
 				    }
 					
-					System.out.println();
-					System.out.println("추가할 메뉴의 설명을 50자내로 입력하세요.");
-					System.out.print(">>> ");
+					renderSys.printEmptyLine(1);
+					renderSys.printInputFormMessage("추가할 메뉴의 설명을 50자내로 입력하세요.");
 					scanner.nextLine();
 					description = scanner.nextLine();
 					
-					System.out.println();
-					System.out.println("얼음을 선택할 수 있는 메뉴인가요? ex) 1:가능 | 0:불가능");
-					System.out.print(">>> ");
+					renderSys.printEmptyLine(1);
+					renderSys.printInputFormMessage("얼음을 선택할 수 있는 메뉴인가요? ex) 1:가능 | 0:불가능");
 					
 					try {
 					    iceable = scanner.nextInt();
@@ -194,17 +165,16 @@ public class MenuUI {
 					scanner.nextLine();
 					
 					while (true) {
-						title.renderTitle("메뉴 추가 내용 확인하기");
+						renderSys.printSubTitle(renderSys.WIDTH, "메뉴 추가 내용 확인하기");
 		                System.out.printf("%-15s : %s\n", "상위 카테고리", parentCategory);
 		                System.out.printf("%-15s : %s\n", "하위 카테고리", subCategory);
 		                System.out.printf("%-15s : %s\n", "메뉴 이름", menuName);
 		                System.out.printf("%-15s : %d\n", "가격", price);
 		                System.out.printf("%-15s : %s\n", "아이스 가능", iceable == 1 ? "가능" : "불가능");
 		                System.out.printf("%-15s : %s\n", "설명", description);
-		                title.printLine();
-
-		                System.out.println("이대로 추가할까요? (Y/N)");
-		                System.out.print(">>> ");
+		                renderSys.printDivider(renderSys.WIDTH, false);
+		                renderSys.printInputFormMessage("이대로 추가할까요? (Y: 예/N: 아니오)");
+		                
 		                String confirm = scanner.nextLine().trim().toUpperCase();
 		                
 		                if (confirm.equals("Y")) {
@@ -266,14 +236,13 @@ public class MenuUI {
 					break;
 				}
 			} else if (action == 3) {
-				title.renderTitle("메뉴 삭제하기");
+				renderSys.printSubTitle(renderSys.WIDTH, "메뉴 삭제하기");
 				
 				while(true) {
 					ArrayList<String> menuNameList = menuDao.getMenuNames();
-					options.singleLine(menuNameList);
-					title.printLine();
-					System.out.println("삭제할 메뉴의 번호를 입력하세요");
-					System.out.print(">>> ");
+					renderSys.printSingleMenu(menuNameList);
+					renderSys.printDivider(renderSys.WIDTH, false);
+					renderSys.printInputFormMessage("삭제할 메뉴의 번호를 입력하세요");
 					
 					int targetIndex;
 					String tartgetMenu;
@@ -289,18 +258,16 @@ public class MenuUI {
 						
 						tartgetMenu = menuNameList.get(targetIndex - 1);
 					} catch (InputMismatchException e) {
-						System.out.println();
-						System.out.println("삭제할 메뉴의 번호를 숫자로 입력해주세요");
-						System.out.print(">>> ");
+						renderSys.printEmptyLine(1);
+						renderSys.printInputFormMessage("삭제할 메뉴의 번호를 숫자로 입력해주세요");
 						
 				        scanner.nextLine();
 				        continue;
 				    }
 
 					tartgetMenu = menuNameList.get(targetIndex - 1);
-					System.out.println();
-					System.out.println("메뉴 " + tartgetMenu + " 을 삭제하시겠습니까? ex) Y:예 / N:아니오");
-					System.out.print(">>> ");
+					renderSys.printEmptyLine(1);
+					renderSys.printInputFormMessage("메뉴 " + tartgetMenu + " 을 삭제하시겠습니까? ex) Y:예 / N:아니오");
 					char answer = scanner.next().toUpperCase().charAt(0);
 					
 					switch (answer) {
@@ -308,7 +275,7 @@ public class MenuUI {
 							try {
 								menuDao.deleteMenu(tartgetMenu);
 								
-								System.out.println();
+								renderSys.printEmptyLine(1);
 								System.out.println("\u2714" + tartgetMenu + " 메뉴가 성공적으로 삭제되었습니다.");
 							} catch (RuntimeException e) {
 								System.out.println(tartgetMenu + "메뉴 삭제에 실패했습니다.");
@@ -330,7 +297,7 @@ public class MenuUI {
 				
 				continue;
 			} else if (action == 4) {
-				title.renderTitle("메뉴 수정하기", false);
+				renderSys.printSubTitle(renderSys.WIDTH, "메뉴 수정하기", false);
 				
 				while(true) {
 					ArrayList<String> menuNameList = menuDao.getMenuNames();
@@ -339,11 +306,11 @@ public class MenuUI {
 					String updateTargetMenu;
 					
 					while(true) {
-						title.printLine();
-						options.singleLine(menuNameList);
-						title.printLine();
-						System.out.println("수정할 메뉴의 번호를 입력하세요");
-						System.out.print(">>> ");
+						renderSys.printDivider(renderSys.WIDTH, false);
+						renderSys.printSingleMenu(menuNameList);
+
+						renderSys.printDivider(renderSys.WIDTH, false);
+						renderSys.printInputFormMessage("수정할 메뉴의 번호를 입력하세요");
 						
 						int targetIndex;
 						
@@ -364,9 +331,8 @@ public class MenuUI {
 					        continue;
 					    }
 
-						System.out.println();
-						System.out.println("메뉴 '" + updateTargetMenu + "' 을 수정하시겠습니까? ex) Y:예 / N:아니오");
-						System.out.print(">>> ");
+						renderSys.printEmptyLine(1);
+						renderSys.printInputFormMessage("메뉴 '" + updateTargetMenu + "' 을 수정하시겠습니까? ex) Y:예 / N:아니오");
 						
 						char menuSelectAnswer = scanner.next().toUpperCase().charAt(0);
 
@@ -388,7 +354,7 @@ public class MenuUI {
 									continue;
 								}
 							case 'N':
-								System.out.println();
+								renderSys.printEmptyLine(1);
 								System.out.println("메뉴 '" + updateTargetMenu + "' 수정을 취소합니다. 다른 메뉴를 선택합니다.");
 								
 								continue;
@@ -403,12 +369,12 @@ public class MenuUI {
 					String updateTargetcolumn;
 					
 					while (true) {
-						System.out.println();
-						title.renderTitle("수정할 메뉴 옵션");
-						options.singleLine(koreanColumns);
-						title.printLine();
-						System.out.println("수정할 메뉴의 옵션 번호를 선택하세요.");
-						System.out.print(">>> ");
+						renderSys.printEmptyLine(1);
+						renderSys.printSubTitle(renderSys.WIDTH, "수정할 메뉴 옵션");
+						renderSys.printSingleMenu(koreanColumns);
+						renderSys.printEmptyLine(1);
+						renderSys.printInputForm();
+						renderSys.printInputFormMessage("수정할 메뉴의 옵션 번호를 선택하세요.");
 						
 						int columnIndex;
 						
@@ -438,20 +404,17 @@ public class MenuUI {
 					Integer updateNumber = null;
 					
 					if (englishColumns.contains(updateTargetcolumn)) {
-						System.out.println();
-						System.out.println(formatColumn(updateTargetcolumn) +"의 변경할 값을 입력해주세요.");
-						System.out.print(">>> ");
+						renderSys.printEmptyLine(1);
+						renderSys.printInputFormMessage(formatColumn(updateTargetcolumn) +"의 변경할 값을 입력해주세요.");
 						
 						updateString = scanner.nextLine();
 					} else {
 						System.out.print(formatColumn(updateTargetcolumn) +"의 변경할 값의 숫자를 입력해주세요.");
 						
 						if (updateTargetcolumn.equals("IS_SOLDOUT")) {
-							System.out.println("0: 판매 가능 | 1: 메뉴 품절");
-							System.out.print(">>> ");
+							renderSys.printInputFormMessage("0: 판매 가능 | 1: 메뉴 품절");
 						} else if (updateTargetcolumn.equals("ICEABLE")){
-							System.out.println("0: 아이스 메뉴로만 | 0: 핫 메뉴로만");
-							System.out.print(">>> ");
+							renderSys.printInputFormMessage("0: 아이스 메뉴로만 | 0: 핫 메뉴로만");
 						}
 						
 						updateNumber = scanner.nextInt();
@@ -459,8 +422,8 @@ public class MenuUI {
 					}
 					
 
-					System.out.println();
-					title.renderTitle("변경된 내용 확인하기");
+					renderSys.printEmptyLine(1);
+					renderSys.printTitle(renderSys.WIDTH, "변경된 내용 확인하기");
 					System.out.printf("%-10s : %s\n", "수정할 메뉴", updateTargetMenu);
 					System.out.printf("%-10s : %s\n", "수정할 설정", formatColumn(updateTargetcolumn));
 					if (updateString != null) {
@@ -468,11 +431,10 @@ public class MenuUI {
 					} else {
 					    System.out.printf("%-10s : %s\n", "변경된 내용", String.valueOf(updateNumber));
 					}
-					title.printLine();
-				
-					System.out.println();
-					System.out.println("위 내용으로 수정할까요? ex) Y:예 / N:아니오 ");
-					System.out.print(">>> ");
+					renderSys.printDivider(1, false);
+					renderSys.printEmptyLine(1);
+					renderSys.printInputFormMessage("위 내용으로 수정할까요? ex) Y:예 / N:아니오 ");
+					
 					String confirm = scanner.nextLine().trim().toUpperCase();
 					
 					if (!confirm.equals("Y")) {
@@ -487,7 +449,7 @@ public class MenuUI {
 							menuDao.updateMenu(updateTargetcolumn, updateNumber, updateTargetMenu);
 						}
 						
-						System.out.println();
+						renderSys.printEmptyLine(1);
 						System.out.println(updateTargetMenu + " 메뉴가 성공적으로 업데이트 되었습니다.");
 					} catch(RuntimeException e) {
 						System.out.println(e.getMessage());
@@ -496,9 +458,8 @@ public class MenuUI {
 						continue;
 					}
 					
-					System.out.println();
-					System.out.println("다른 메뉴도 계속 수정하시겠습니까? ex) Y:예 / N:아니오");
-					System.out.print(">>> ");
+					renderSys.printEmptyLine(1);
+					renderSys.printInputFormMessage("다른 메뉴도 계속 수정하시겠습니까? ex) Y:예 / N:아니오");
 					
 					char nextStep = scanner.nextLine().trim().toUpperCase().charAt(0);
 					
@@ -512,24 +473,34 @@ public class MenuUI {
 				break;
 			}
 		}
+		
+		scanner.close();
 	}
 	
 	public static String formatColumn(String engColumn) {
-		String korColumn = null;
+		String korColumn = "";
 		
-		if (engColumn.equals("CATEGORY_NAME")) {
-			korColumn = "카테고리";
-		} else if (engColumn.equals("MENU_NAME")) {
-			korColumn = "메뉴이름";
-		} else if (engColumn.equals("PRICE")) {
-			korColumn = "메뉴가격";
-		} else if (engColumn.equals("IS_SOLDOUT")) {
-			korColumn = "품절여부";
-		} else if (engColumn.equals("ICEABLE")) {
-			korColumn = "아이스가능";
-		} else if (engColumn.equals("DESCRIPTION")) {
-			korColumn = "메뉴설명";
+		switch(engColumn) {
+			case "CATEGORY_NAME":
+				korColumn = "카테고리";
+				break;
+			case "MENU_NAME":
+				korColumn = "메뉴이름";
+				break;
+			case "PRICE":
+				korColumn = "메뉴가격";
+				break;
+			case "IS_SOLDOUT":
+				korColumn = "품절여부";
+				break;
+			case "ICEABLE":
+				korColumn = "아이스가능";
+				break;
+			case "DESCRIPTION":
+				korColumn = "메뉴설명";
+				break;
 		}
+
 		return korColumn;
 	};
 	
@@ -549,45 +520,4 @@ public class MenuUI {
 	        (iceable == 1 ? "Yes" : "No"),
 	        description);
 	};
-	
-	public static String formatColumnName(String columnName) {
-	    return switch (columnName) {
-	        case "CATEGORY_NAME" -> String.format("%-12s", "카테고리");
-	        case "MENU_NAME" -> String.format("%-14s", "메뉴이름");
-	        case "PRICE" -> String.format("%-8s", "메뉴가격");
-	        case "IS_SOLDOUT" -> String.format("%-10s", "품절여부");
-	        case "ICEABLE" -> String.format("%-10s", "아이스");
-	        case "DESCRIPTION" -> String.format("%-24s", "메뉴설명");
-	        default -> columnName;
-	    };
-	}
-	
-	public static ArrayList<String> getMenuNames() throws Exception {
-		DataSource ds = new DataSource();
-		Connection con = null;
-
-		ArrayList<String> menuList = new ArrayList<>();
-		
-		try {
-			con = ds.getConnection();
-			
-			String sql = "SELECT menu_name FROM menus";
-			
-			PreparedStatement stmt = con.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
-			
-			System.out.println("메뉴 정보를 모두 확인했습니다.");
-			
-			while(rs.next()) {
-				String menuName = rs.getString("menu_name");
-				menuList.add(menuName);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			ds.closeConnection(con);
-		}
-		
-		return menuList;
-	}
 }

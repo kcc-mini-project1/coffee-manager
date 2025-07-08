@@ -6,19 +6,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
-
-import utils.RenderOptions;
-import utils.RenderTitle;
 
 public class MenuDao {
-	static RenderTitle title = new RenderTitle();
-	static RenderOptions options = new RenderOptions();
-	
-	public static List<String> getMenuHeader() {
+	public List<String> getMenuHeader() {
 		DataSource ds = new DataSource();
 		Connection con = null;
 		
@@ -51,7 +42,7 @@ public class MenuDao {
 		}
 	}
 	
-	public static void printMenuRows () {
+	public void printMenuRows () {
 		DataSource ds = new DataSource();
 		Connection con = null;
 		
@@ -90,7 +81,7 @@ public class MenuDao {
 		}
 	}
 	
-	public static List<String> getParentCategories () {
+	public List<String> getParentCategories () {
 		DataSource ds = new DataSource();
 		Connection con = null;
 		
@@ -117,7 +108,7 @@ public class MenuDao {
 		}
 	}
 	
-	public static List<String> getChildCategories (String parent) {
+	public List<String> getChildCategories (String parent) {
 		DataSource ds = new DataSource();
 		Connection con = null;
 		
@@ -150,10 +141,10 @@ public class MenuDao {
 		}
 	}
 	
-	public static ArrayList<String> getMenuNames() {
+	public ArrayList<String> getMenuNames() {
 		DataSource ds = new DataSource();
 		Connection con = null;
-		RenderTitle title = new RenderTitle();
+
 		ArrayList<String> menuList = new ArrayList<>();
 		
 		try {
@@ -178,7 +169,7 @@ public class MenuDao {
 		
 	}
 	
-	public static void insertMenu (String subCategory, String menuName, int price, String description, int iceable) {
+	public void insertMenu (String subCategory, String menuName, int price, String description, int iceable) {
 		DataSource ds = new DataSource();
 		Connection con = null;
 
@@ -215,7 +206,7 @@ public class MenuDao {
 		}
 	}
 	
-	public static void deleteMenu (String tartgetMenu) {
+	public void deleteMenu (String tartgetMenu) {
 		DataSource ds = new DataSource();
 		Connection con = null;
 		
@@ -245,7 +236,7 @@ public class MenuDao {
 		}
 	}
 	
-	public static void updateMenu (String columnName, int updateNumber, String targetMenu) {
+	public void updateMenu (String columnName, int updateNumber, String targetMenu) {
 		DataSource ds = new DataSource();
 		Connection con = null;
 		
@@ -277,7 +268,7 @@ public class MenuDao {
 		}
 	}
 	
-	public static void updateMenu (String columnName, String  updateString, String targetMenu) {
+	public void updateMenu (String columnName, String  updateString, String targetMenu) {
 		DataSource ds = new DataSource();
 		Connection con = null;
 		
