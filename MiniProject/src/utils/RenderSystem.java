@@ -86,19 +86,10 @@ public class RenderSystem {
 		
 		String divider = "=".repeat(size);
 		String content = " ".repeat(blankSize) + subTitle;
+
 		System.out.println(colorize(divider, "blue"));
 		System.out.println(colorize(content, "blue"));
 		System.out.println(colorize(divider, "blue"));
-	}
-	
-	public void printSubTitle(int size, String subTitle, boolean underline) {
-		int blankSize = (int)(Math.round((size - (subTitle.length() * 1.5)) / 2));
-		
-		String divider = "=".repeat(size);
-		String content = " ".repeat(blankSize) + subTitle;
-		System.out.println(colorize(divider, "blue"));
-		System.out.println(colorize(content, "blue"));
-		if (underline) System.out.println(colorize(divider, "blue"));
 	}
 	
 	// 사용자로부터 입력 요청메시지 출력
