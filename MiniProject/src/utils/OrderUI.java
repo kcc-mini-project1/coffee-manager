@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class OrderUI {
 	private static final Scanner sc = new Scanner(System.in);
 	private static final RenderSystem renderSys = new RenderSystem();
-	private static int displaySize = 40;
+	private static int displaySize = 110;
 	private static int menuSize = 110;
 	
 	public static void start() {
@@ -274,11 +274,11 @@ public class OrderUI {
             
             // (8) 입력받은 주문 정보 확인
             renderSys.printTitle(displaySize, "입력하신 주문 정보 확인");
-            System.out.println("회원번호\t: " + customerId);
-            System.out.println("메뉴명\t: " + menuName);
-            System.out.println("요청사항\t: " + request);
-            System.out.println("ICE 여부\t: " + (isIce ? "ICE" : "HOT"));
-            System.out.println("쿠폰 사용\t: " + (useCoupon ? "사용" : "사용 안 함"));
+            System.out.println(" 회원번호\t: " + customerId);
+            System.out.println(" 메뉴명\t: " + menuName);
+            System.out.println(" 요청사항\t: " + request);
+            System.out.println(" ICE 여부\t: " + (isIce ? "ICE" : "HOT"));
+            System.out.println(" 쿠폰 사용\t: " + (useCoupon ? "사용" : "사용 안 함"));
             renderSys.printDivider(displaySize, true);
             
             // 입력 확인
@@ -339,8 +339,9 @@ public class OrderUI {
         boolean run = true;
 
         try (ResultSet listRs = dao.getRecentOrders()) {
-        		renderSys.printSubTitle(menuSize, "최근 주문내역 리스트");
-            System.out.println("주문번호\t\t  회원번호\t\t\t  메뉴명\t\t\t    주문일자\n");
+        		renderSys.printTitle(menuSize, "최근 주문내역 리스트");
+            System.out.println("주문번호\t\t  회원번호\t\t\t  메뉴명\t\t\t    주문일자");
+            renderSys.printDivider(menuSize, true);
             while (listRs.next()) {
                 System.out.printf(" %d\t\t%s\t\t%s\t\t\t%s\n",
                         listRs.getInt("order_id"),
@@ -348,6 +349,7 @@ public class OrderUI {
                         listRs.getString("menu_name"),
                         listRs.getTimestamp("order_date").toString());
             }
+            renderSys.printDivider(menuSize, true);
             renderSys.printEmptyLine(2);
             
             while (run) {
@@ -374,7 +376,7 @@ public class OrderUI {
                         continue;
                     }
                     
-                    renderSys.printSubTitle(menuSize, "접수된 주문정보");
+                    renderSys.printTitle(menuSize, "접수된 주문정보");
                     System.out.println("주문번호\t: " + rs.getInt("order_id"));
                     System.out.println("주문일자\t: " + rs.getTimestamp("order_date"));
                     System.out.println("회원번호\t: " + rs.getString("customer_id"));
@@ -429,11 +431,12 @@ public class OrderUI {
             if (rs.next()) {
                 int stamp = rs.getInt("stamp");
                 int coupon = rs.getInt("coupon");
-
-                renderSys.printSubTitle(displaySize, "내 포인트");
+                
+                renderSys.printTitle(displaySize, "내 포인트");
                 System.out.println("회원번호\t: " + rs.getString("customer_id"));
                 System.out.println("스탬프\t: " + (stamp % 10) + " / 10");
                 System.out.println("쿠폰\t: " + coupon + "장");
+                renderSys.printDivider(displaySize, true);
             } else {
                 System.out.println("회원 정보를 찾을 수 없습니다.");
             }

@@ -13,7 +13,7 @@ public class Main {
 		EmployeeMain empMain = new EmployeeMain();
 		MenuUI menuUI = new MenuUI();
 		
-		int displaySize = 40;
+		int displaySize = 110;
 		
 		// 프로그램 시작. 로고 출력
 		renderSys.printLogo();
