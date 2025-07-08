@@ -24,5 +24,27 @@ public class RenderTitle {
 	        System.out.println(contentLine);
 	        printLine();
 	    }
+	 
+	 public static void renderTitle(String title, boolean underLine) {
+	        int innerWidth = STARCOUNT;
+
+	        int blank = innerWidth - title.length();
+	        if (blank < 0) blank = 0;
+
+	        int leftPad  = blank / 2;
+	        int rightPad = blank - leftPad;
+
+	        String contentLine = " ".repeat(leftPad) + title + " ".repeat(rightPad);
+
+	        if (underLine) {
+	        	printLine();
+		        System.out.println(contentLine);
+		        printLine();
+	        } else {
+	        	printLine();
+		        System.out.println(contentLine);
+	        }
+	        
+	    }
 }
 
