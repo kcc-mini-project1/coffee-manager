@@ -1,63 +1,54 @@
 package main;
 import java.util.Scanner;
 
-import utils.MenuUI;
 import utils.OrderUI;
 import utils.RenderSystem;
 
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		RenderSystem renderSys = new RenderSystem();
 
-		EmployeeMain empMain = new EmployeeMain();
-		MenuUI menuUI = new MenuUI();
-		
-		int displaySize = 110;
-		
+		UserMenus userMenus = new UserMenus(sc);
+		OrderUI orderUI = new OrderUI(sc);
 		// 프로그램 시작. 로고 출력
-		renderSys.printLogo();
+		RenderSystem.printLogo();
 		
 		boolean run = true;
+		
 		while (run) {
-			// 관리 시스템 접속 화면 출력 
-			renderSys.printTitle(displaySize, "카페 관리 시스템");
-			System.out.println(" 1. 주문 관리 시스템 접속");
-			System.out.println(" 2. 직원 관리 시스템 접속");
-			System.out.println(" 3. 메뉴 관리 시스템 접속");
-			System.out.println(" Q. 프로그램 종료");
-			renderSys.printDivider(displaySize, true);
-			
-			// 관리 시스템 선택
-            renderSys.printInputForm();
-            String input = sc.nextLine();
-            renderSys.printEmptyLine(2);
+            // 사용자 선택 화면
+            RenderSystem.printTitle(RenderSystem.WIDTH, "카페 시스템");
+            System.out.println(" 1. 손님");
+            System.out.println(" 2. 직원");
+            System.out.println(" 3. 사장님");
+            System.out.println(" Q. 프로그램 종료");
+            RenderSystem.printDivider(RenderSystem.WIDTH, true);
             
-            // 1, 2, 3 입력에 따라 관리 시스템 실행
+            RenderSystem.printInputForm();
+            String input = sc.nextLine();
+            RenderSystem.printEmptyLine(2);
+            
             switch (input) {
-            case "1":
-            		OrderUI.start();
-            		break;
-            case "2":
-            		empMain.start();
-                break;
-            case"3":
-            		try {
-            			menuUI.startMain();
-            		} catch (Exception e) {
-            			e.printStackTrace();
-            		}
-                	break;
-            case "Q":
-            	case "q":
-            	case "ㅂ":
-            		System.out.println("프로그램을 종료합니다.");
-            		run = false;
-            		break;
-            default:
-            		renderSys.printInvalidInput();
+                case "1":
+                		orderUI.start();
+                    break;
+                case "2":
+                    userMenus.showEmployeeMenu();
+                    break;
+                case "3":
+                    userMenus.showOwnerMenu();
+                    break;
+                case "Q":
+                case "q":
+                case "ㅂ":
+                    System.out.println("프로그램을 종료합니다.");
+                    run = false;
+                    break;
+                default:
+                    RenderSystem.printInvalidInput();
             }
         }
+
 		sc.close();
 	}
 }

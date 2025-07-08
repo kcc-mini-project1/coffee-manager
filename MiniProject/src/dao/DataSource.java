@@ -4,7 +4,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataSource {
-	private static String driverClassName = "oracle.driver.OracleDriver";
 	private static String url = "jdbc:oracle:thin:@192.168.0.29:1523/XEPDB1";
 
 	private String username = "kcc";
@@ -18,6 +17,7 @@ public class DataSource {
 	}
 	
 	public Connection getConnection() {
+		System.out.println("커넥션 가져오기"); // 지워야함
 		Connection con = null;
 		
 		try {
