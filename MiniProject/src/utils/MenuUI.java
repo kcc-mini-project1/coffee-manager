@@ -49,16 +49,6 @@ public class MenuUI {
 		        continue;
 		    }
 			
-			try {
-				action = scanner.nextInt();
-				scanner.nextLine();
-		    } catch (InputMismatchException e) {
-				System.out.println("숫자만 입력해주세요");
-				
-		        scanner.nextLine();
-		        continue;
-		    }
-			
 		    if (action < 1 || action > 4) {
 		        System.out.println("1 ~ 4 사이 숫자만 입력해주세요.");
 		        continue;
