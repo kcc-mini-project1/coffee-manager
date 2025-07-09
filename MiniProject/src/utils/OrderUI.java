@@ -196,13 +196,14 @@ public class OrderUI {
     				}
     			}
     			
-    			// (3) 주문 목록 확인 후 주문할 메뉴 선택하기
+    			
+    		// (3) 주문 목록 확인 후 주문할 메뉴 선택하기
             OrderDao dao = new OrderDao();
             ResultSet menuRs = dao.getAvailableMenus(subCategoryName);
             
             // 제목 + 메뉴판 출력
             renderSys.printSubTitle(renderSys.WIDTH, "메뉴 주문하기 - " + subCategoryName + " 메뉴목록");
-            List<String> availableMenus = new ArrayList<>();
+            List<String> availableMenus = new ArrayList<>(); 
             while (menuRs.next()) {
                 String menu = menuRs.getString("menu_name");
                 int price = menuRs.getInt("price");
@@ -226,17 +227,24 @@ public class OrderUI {
                 renderSys.printEmptyLine(2);
                 return;
             }
-
+            
             // (4) 회원번호 입력받기
             renderSys.printInputFormMessage("전화번호를 입력해주세요. (Q: 주문 종료 / 엔터: 비회원)");
             String customerId = sc.nextLine();
             renderSys.printEmptyLine(2);
+            
             
             // 입력 확인
             if (customerId.equals("q") || customerId.equals("Q") || customerId.equals("ㅂ")) {
 	        		return;
             }
             if (customerId.isBlank()) customerId = "비회원";
+            if(customerId.length() != 10) { //경준님이 만드신 함수로 print 변경해야함 x 모양 나오게
+            	System.out.print("잘못된 번호 형식입니다. \n주문을 종료합니다.");
+            	renderSys.printEmptyLine(2);
+            	return;
+            	}
+            
             
             // 회원이 비회원이 아니면 members 테이블에 존재하는지 확인, 없으면 추가
             if (!customerId.equals("비회원")) {
@@ -270,17 +278,17 @@ public class OrderUI {
             renderSys.printEmptyLine(2);
             
             // (7) ICE 선택 확인
-            renderSys.printInputFormMessage("ICE로 주문하시겠습니까? (1: ICE / 0: HOT)");
+            renderSys.printInputFormMessage("ICE로 주문하시겠습니까? (1: ICE / 1 제외 값 : HOT)");
             boolean isIce = sc.nextLine().equalsIgnoreCase("1");
             renderSys.printEmptyLine(2);
             
             // (8) 입력받은 주문 정보 확인
             renderSys.printTitle(renderSys.WIDTH, "입력하신 주문 정보 확인");
-            System.out.println(" 회원번호\t: " + customerId);
-            System.out.println(" 메뉴명\t: " + menuName);
-            System.out.println(" 요청사항\t: " + request);
-            System.out.println(" ICE 여부\t: " + (isIce ? "ICE" : "HOT"));
-            System.out.println(" 쿠폰 사용\t: " + (useCoupon ? "사용" : "사용 안 함"));
+            System.out.println(" 회원번호\t  : " + customerId);
+            System.out.println(" 메뉴명\t    : " + menuName);
+            System.out.println(" 요청사항\t  : " + request);
+            System.out.println(" ICE 여부\t  : " + (isIce ? "ICE" : "HOT"));
+            System.out.println(" 쿠폰 사용\t : " + (useCoupon ? "사용" : "사용 안 함"));
             renderSys.printDivider(renderSys.WIDTH, true);
             
             // 입력 확인

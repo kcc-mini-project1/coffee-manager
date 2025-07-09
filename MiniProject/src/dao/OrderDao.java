@@ -110,7 +110,6 @@ public class OrderDao {
                         }
                     }
                 }
-
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
