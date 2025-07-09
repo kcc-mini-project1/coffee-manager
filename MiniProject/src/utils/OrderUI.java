@@ -239,9 +239,10 @@ public class OrderUI {
             	customerId = "비회원";
             	renderSys.printStatus("전화번호를 입력하지 않았습니다. 비회원으로 스탬프 적립 X ", false);
             	renderSys.printEmptyLine(2);
-            	}else if(customerId.length() != 10){
-            		renderSys.printStatus("잘못된 번호 형식입니다. \\n주문을 종료합니다.", false);
-            		renderSys.printEmptyLine(2);
+
+            	}else if(customerId.length() != 11){
+            		renderSys.printStatus("잘못된 번호 형식입니다. \n주문을 종료합니다.", false);
+                	renderSys.printEmptyLine(2);
             		return;
             	}
 
