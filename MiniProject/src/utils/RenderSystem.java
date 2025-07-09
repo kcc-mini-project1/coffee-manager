@@ -10,7 +10,7 @@ public class RenderSystem {
     public String RED    = "\u001B[31m";
     public String GREEN  = "\u001B[32m";
     public String YELLOW = "\u001B[33m";
-    public String BLUE   = "\u001B[34m";
+    public String BLUE   = "\u001B[38;2;30;144;255m";
     public String WHITE  = "\u001B[37m";
     public String EXIT   = "\u001B[0m";
     
