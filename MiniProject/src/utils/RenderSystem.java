@@ -109,26 +109,41 @@ public class RenderSystem {
         System.out.print("\n[에러] " + msg + "\n");
     }
     
-	// 문자열 배열 단일행 출력
+	// 한글 포함한 문자열의 실제 보여지는 width 계산
+	private int getDisplayWidth(String s) {
+	    int width = 0;
+	    
+	    for (int i = 0; i < s.length(); i++) {
+	        width += String.valueOf(s.charAt(i)).matches("[가-힣]") ? 2 : 1;
+	    }
+	    
+	    return width;
+	}
+	
     public void printSingleMenu(List<String> options) {
-		int PADDING = 2;
-	    String currentLine = "";
+        final int PAD = 4;
+        String currentLine = "";
+        int currentLineWidth = 0;
 
-	    for (int i = 0; i < options.size(); i++) {
-	        String menuItem = (i + 1) + ". " + options.get(i);
-	        String itemWithGap = menuItem + " ".repeat(PADDING);
+        for (int i = 0; i < options.size(); i++) {
+            String item = (i + 1) + ". " + options.get(i);
+            String itemWithPAD = item + " ".repeat(PAD);
+            int itemWidth = getDisplayWidth(itemWithPAD);
 
-	        if (currentLine.length() + itemWithGap.length() > WIDTH) {
-	            System.out.println(currentLine);
-	            currentLine = "";
-	        }
+            if (currentLineWidth + itemWidth > WIDTH) {
+                System.out.println(currentLine);
+                System.out.println();
+                currentLine = "";
+                currentLineWidth = 0;
+            }
 
-	        currentLine += itemWithGap;
-	    }
+            currentLine += itemWithPAD;
+            currentLineWidth += itemWidth;
+        }
 
-	    if (!currentLine.isEmpty()) {
-	        System.out.println(currentLine);
-	    }
+        if (!currentLine.isEmpty()) {
+            System.out.println(currentLine);
+        }
 	}
 
     // 문자열 배열 복수행 출력
