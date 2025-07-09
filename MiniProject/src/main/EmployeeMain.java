@@ -7,9 +7,11 @@ import utils.RenderSystem;
 
 public class EmployeeMain {
 	private static Scanner read;
+	private static RenderSystem renderSys;
 	
 	public EmployeeMain (Scanner read) {
 		EmployeeMain.read = read;
+		EmployeeMain.renderSys = new RenderSystem();
 	}
 	
 	public void start() {
@@ -21,7 +23,7 @@ public class EmployeeMain {
 			// 직원 관리 시스템 기능 출력 및 입력받기
 			employeeInterAction.printFunction();
 			String userInput = read.nextLine();
-			RenderSystem.printEmptyLine(2);
+			renderSys.printEmptyLine(2);
 			
 			// 입력 확인
 			switch (userInput) {
@@ -41,13 +43,13 @@ public class EmployeeMain {
 			case "q":
 			case "ㅂ":
 				System.out.println("직원 관리 시스템을 종료합니다.");
-				RenderSystem.printEmptyLine(2);
+				renderSys.printEmptyLine(2);
 				escape = true;
 				break;
 			// 사용자 입력이 잘못된 경우 (1, 2, 3, 4, Q, q 의 입력만 기능 제공)
 			default:
-				RenderSystem.printInvalidInput();
-				RenderSystem.printEmptyLine(2);
+				renderSys.printInvalidInput();
+				renderSys.printEmptyLine(2);
 			}
 			// 직원 관리 시스템 종료
 			if (escape) { break; }

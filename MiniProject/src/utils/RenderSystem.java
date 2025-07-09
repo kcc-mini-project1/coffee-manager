@@ -3,18 +3,18 @@ package utils;
 import java.util.List;
 
 public class RenderSystem {
-	public static final int WIDTH = 110;
+	public int WIDTH = 110;
 	
-	public static String PINK = "\033[38;2;241;101;138m";
-	public static String BLACK  = "\u001B[30m";
-    public static String RED    = "\u001B[31m";
-    public static String GREEN  = "\u001B[32m";
-    public static String YELLOW = "\u001B[33m";
-    public static String BLUE   = "\u001B[34m";
-    public static String WHITE  = "\u001B[37m";
-    public static String EXIT   = "\u001B[0m";
+	public String PINK = "\033[38;2;241;101;138m";
+	public String BLACK  = "\u001B[30m";
+    public String RED    = "\u001B[31m";
+    public String GREEN  = "\u001B[32m";
+    public String YELLOW = "\u001B[33m";
+    public String BLUE   = "\u001B[34m";
+    public String WHITE  = "\u001B[37m";
+    public String EXIT   = "\u001B[0m";
     
-    public static String colorize(String message, String colorName) {
+    public String colorize(String message, String colorName) {
         String colorCode = BLACK;
 
         if (colorName != null) {
@@ -32,7 +32,7 @@ public class RenderSystem {
     }
 	
 	// 구분선 출력
-	public static void printDivider(int size, boolean single) {
+	public void printDivider(int size, boolean single) {
 		if (single) {
 			System.out.println("-".repeat(size));
 		} else {
@@ -41,7 +41,7 @@ public class RenderSystem {
 	}
 	
 	// 제목 출력
-	public static void printTitle(int size, String title) {
+	public void printTitle(int size, String title) {
 		int blankSize = (int)(Math.round((size - (title.length() * 1.5)) / 2));
 		
 		String divider = "=".repeat(size);
@@ -51,7 +51,7 @@ public class RenderSystem {
 		System.out.println(divider);
 	}
 	
-	public static void printTitle(int size, String title, boolean underline) {
+	public void printTitle(int size, String title, boolean underline) {
 		int blankSize = (int)(Math.round((size - (title.length() * 1.5)) / 2));
 		
 		String divider = "=".repeat(size);
@@ -62,7 +62,7 @@ public class RenderSystem {
 	}
 	
 	// 부제목 출력
-	public static void printSubTitle(int size, String subTitle) {
+	public void printSubTitle(int size, String subTitle) {
 		int blankSize = (int)(Math.round((size - (subTitle.length() * 1.5)) / 2));
 		
 		String divider = "=".repeat(size);
@@ -73,7 +73,7 @@ public class RenderSystem {
 		System.out.println(colorize(divider, "blue"));
 	}
 	
-	public static void printSubTitle(int size, String subTitle, boolean underline) {
+	public void printSubTitle(int size, String subTitle, boolean underline) {
 		int blankSize = (int)(Math.round((size - (subTitle.length() * 1.5)) / 2));
 		
 		String divider = "=".repeat(size);
@@ -85,32 +85,32 @@ public class RenderSystem {
 	}
 	
 	// 사용자로부터 입력 요청메시지 출력
-	public static void printInputForm() {
+	public void printInputForm() {
 		System.out.print("원하시는 작업을 입력해주세요.\n>>> ");
 	}
 	
 	// 원하는 메세지를 출력 후 입력 요청메세지 출력
-	public static void printInputFormMessage(String msg) {
+	public void printInputFormMessage(String msg) {
 		System.out.print(msg + "\n>>> ");
 	}
 	
 	// 원하는 수의 개행 출력
-	public static void printEmptyLine(int size) {
+	public void printEmptyLine(int size) {
 		String content = "\n".repeat(size);
 		System.out.print(content);
 	}
 	
 	// [사용자 입력 에러 발생] 재입력 요청 메세지 출력
-	public static void printInvalidInput() {
+	public void printInvalidInput() {
 		System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
 	}
 	
-    public static void printErrorMessage(String msg) {
+    public void printErrorMessage(String msg) {
         System.out.print("\n[에러] " + msg + "\n");
     }
     
 	// 문자열 배열 단일행 출력
-    public static void printSingleMenu(List<String> options) {
+    public void printSingleMenu(List<String> options) {
 		int PADDING = 2;
 	    String pad = " ".repeat(PADDING);
 	
@@ -122,14 +122,14 @@ public class RenderSystem {
 	}
 
     // 문자열 배열 복수행 출력
-	public static void printMultiMenu(List<String> options) {
+	public void printMultiMenu(List<String> options) {
 	    for (int i = 0; i < options.size(); i++) {
 	        System.out.println((i + 1) + ". " + options.get(i));
 	    }
 	}
 	
 	// 쿠폰갯수 시각화
-	public static String printStamp(int currentStamp) {
+	public String printStamp(int currentStamp) {
 	    int MAX_STAMP = 10;
 
 	    if (currentStamp < 0) currentStamp = 0;
@@ -143,12 +143,12 @@ public class RenderSystem {
 	}
 	
 	// 원화 숫자 포맷
-	public static String formatWon(int amount) {
+	public String formatWon(int amount) {
 	    return String.format("%,d원", amount);
 	};
 	
 	// 상태메세지
-    public static void printStatus(String message, boolean success) {
+    public void printStatus(String message, boolean success) {
     		if (success) {
     			System.out.println("✔️ " + message);
     		} else {
@@ -157,7 +157,7 @@ public class RenderSystem {
     };
     
 	// 브랜드 로고 출력
-	public static void printLogo() {
+	public void printLogo() {
 		String TITLELOGO = "\r\n"
 	    		+ "                  ██  █████  ██    ██  █████  ██████  ██████  ███████ ███████ ███████  ██████    ;)( ;             \r\n"
 	    		+ "                  ██ ██   ██ ██    ██ ██   ██ ██   ██ ██   ██ ██      ██      ██      ██    ██  :----:             \r\n"

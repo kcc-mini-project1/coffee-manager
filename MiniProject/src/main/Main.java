@@ -7,26 +7,26 @@ import utils.RenderSystem;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-
+		RenderSystem renderSys = new RenderSystem();
 		UserMenus userMenus = new UserMenus(sc);
 		OrderUI orderUI = new OrderUI(sc);
 		// 프로그램 시작. 로고 출력
-		RenderSystem.printLogo();
+		renderSys.printLogo();
 		
 		boolean run = true;
 		
 		while (run) {
             // 사용자 선택 화면
-            RenderSystem.printTitle(RenderSystem.WIDTH, "카페 시스템");
+            renderSys.printTitle(renderSys.WIDTH, "카페 시스템");
             System.out.println(" 1. 카페 손님");
             System.out.println(" 2. 카페 직원");
             System.out.println(" 3. 카페 점장");
             System.out.println(" Q. 프로그램 종료");
-            RenderSystem.printDivider(RenderSystem.WIDTH, true);
+            renderSys.printDivider(renderSys.WIDTH, true);
             
-            RenderSystem.printInputForm();
+            renderSys.printInputForm();
             String input = sc.nextLine();
-            RenderSystem.printEmptyLine(2);
+            renderSys.printEmptyLine(2);
             
             switch (input) {
                 case "1":
@@ -45,7 +45,7 @@ public class Main {
                     run = false;
                     break;
                 default:
-                    RenderSystem.printInvalidInput();
+                    renderSys.printInvalidInput();
             }
         }
 
