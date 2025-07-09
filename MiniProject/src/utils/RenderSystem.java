@@ -112,13 +112,23 @@ public class RenderSystem {
 	// 문자열 배열 단일행 출력
     public void printSingleMenu(List<String> options) {
 		int PADDING = 2;
-	    String pad = " ".repeat(PADDING);
-	
+	    String currentLine = "";
+
 	    for (int i = 0; i < options.size(); i++) {
-	    		System.out.print((i + 1) + ". " + options.get(i) + pad);
+	        String menuItem = (i + 1) + ". " + options.get(i);
+	        String itemWithGap = menuItem + " ".repeat(PADDING);
+
+	        if (currentLine.length() + itemWithGap.length() > WIDTH) {
+	            System.out.println(currentLine);
+	            currentLine = "";
+	        }
+
+	        currentLine += itemWithGap;
 	    }
-	    
-	    System.out.println();
+
+	    if (!currentLine.isEmpty()) {
+	        System.out.println(currentLine);
+	    }
 	}
 
     // 문자열 배열 복수행 출력
