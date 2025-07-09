@@ -220,7 +220,7 @@ public class OrderUI {
             		return;
             }
             if (!availableMenus.contains(menuName.toLowerCase())) {
-            		renderSys.printStatus("메뉴목록에 없는 메뉴입니다.\n주문을 종료합니다.", false);
+            		renderSys.printStatus("메뉴목록에 없는 메뉴입니다. 주문을 종료합니다.", false);
                 renderSys.printEmptyLine(2);
                 return;
             }
@@ -309,6 +309,7 @@ public class OrderUI {
             			renderSys.printStatus("쿠폰 1장이 사용되었습니다.", true);
             			renderSys.printEmptyLine(2);
             		}
+            		renderSys.printEmptyLine(2);
             		renderSys.printStatus("주문이 완료되었습니다.", true);
         		} else {
         			renderSys.printEmptyLine(2);
