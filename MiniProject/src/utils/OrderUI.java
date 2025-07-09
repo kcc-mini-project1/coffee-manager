@@ -275,9 +275,9 @@ public class OrderUI {
             // (8) 입력받은 주문 정보 확인
             RenderSystem.printTitle(RenderSystem.WIDTH, "입력하신 주문 정보 확인");
             System.out.println(" 회원 번호 : " + customerId);
-            System.out.println(" 메 뉴 명  : " + menuName);
+            System.out.println(" 주문 메뉴 : " + menuName);
             System.out.println(" 요청 사항 : " + request);
-            System.out.println(" ICE 여부  : " + (isIce ? "ICE" : "HOT"));
+            System.out.println(" ICE  여부 : " + (isIce ? "ICE" : "HOT"));
             System.out.println(" 쿠폰 사용 : " + (useCoupon ? "사용" : "사용 안 함"));
             RenderSystem.printDivider(RenderSystem.WIDTH, true);
             
@@ -285,24 +285,30 @@ public class OrderUI {
             RenderSystem.printInputFormMessage("위 정보로 주문하시겠습니까? (y/n)");
             String confirm = sc.nextLine();
             if (!confirm.equalsIgnoreCase("y")) {
+            		RenderSystem.printEmptyLine(2);
             		RenderSystem.printStatus("주문이 취소되었습니다.", true);
             		RenderSystem.printEmptyLine(2);
             		return;
             }
 
             boolean success = orderDao.insertOrder(customerId, menuName, request, isIce, useCoupon);
+            
             if (success) {
             		if (useCoupon && !customerId.equals("비회원")) {
+            			RenderSystem.printEmptyLine(2);
             			RenderSystem.printStatus("쿠폰 1장이 사용되었습니다.", true);
+            			RenderSystem.printEmptyLine(2);
             		}
             		RenderSystem.printStatus("주문이 완료되었습니다.", true);
         		} else {
+        			RenderSystem.printEmptyLine(2);
         			RenderSystem.printStatus("주문 오류가 발생했습니다.", false);
     			}
             RenderSystem.printEmptyLine(2);
       } catch (SQLException e) {
-    	  		RenderSystem.printStatus("주문 오류가 발생했습니다.", false);
-          e.printStackTrace();
+    	  	RenderSystem.printStatus("주문 오류가 발생했습니다.", false);
+    	  	RenderSystem.printEmptyLine(2);
+         e.printStackTrace();
       }
     }
     
@@ -391,25 +397,26 @@ public class OrderUI {
                     }
 
                     int result = orderDao.deleteOrderById(orderId);
+                    RenderSystem.printEmptyLine(2);
                     if (result > 0) {
                     		RenderSystem.printStatus("주문 취소가 완료되었습니다.", true);
-                    		RenderSystem.printEmptyLine(2);
                         break;
                     } else {
                     		RenderSystem.printStatus("주문 취소 처리 중 오류가 발생했습니다.", false);
-                    		RenderSystem.printEmptyLine(2);
                     }
-                    
-                } catch (SQLException e) {
-                		RenderSystem.printStatus("주문 상세 조회 중 오류가 발생했습니다.", false);
                     RenderSystem.printEmptyLine(2);
+                } catch (SQLException e) {
+                		RenderSystem.printEmptyLine(2);
+                		RenderSystem.printStatus("주문 상세 조회 중 오류가 발생했습니다.", false);
+                		RenderSystem.printEmptyLine(2);
                     e.printStackTrace();
                 }
             }
         } catch (SQLException e) {
+        		RenderSystem.printEmptyLine(2);
         		RenderSystem.printStatus("주문 취소 중 오류가 발생했습니다.", false);
-            RenderSystem.printEmptyLine(2);
-            e.printStackTrace();
+        		RenderSystem.printEmptyLine(2);
+        		e.printStackTrace();
         }
     }
     
@@ -434,13 +441,15 @@ public class OrderUI {
                 System.out.println("쿠    폰 : " + coupon + "장");
                 RenderSystem.printDivider(RenderSystem.WIDTH, true);
             } else {
+            		RenderSystem.printEmptyLine(2);
             		RenderSystem.printStatus("회원 정보를 찾을 수 없습니다.", false);
             }
             RenderSystem.printEmptyLine(2);
         } catch (SQLException e) {
+        		RenderSystem.printEmptyLine(2);
         		RenderSystem.printStatus("포인트 조회 중 오류가 발생했습니다.", false);
-            RenderSystem.printEmptyLine(2);
-            e.printStackTrace();
+        		RenderSystem.printEmptyLine(2);
+        		e.printStackTrace();
         }
     }
     
