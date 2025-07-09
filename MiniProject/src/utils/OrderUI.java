@@ -197,8 +197,6 @@ public class OrderUI {
     			
     			// (3) 주문 목록 확인 후 주문할 메뉴 선택하기
             ResultSet menuRs = orderDao.getAvailableMenus(subCategoryName);
-            
-            // 제목 + 메뉴판 출력
             RenderSystem.printSubTitle(RenderSystem.WIDTH, "메뉴 주문하기 - " + subCategoryName + " 메뉴목록");
             List<String> availableMenus = new ArrayList<>();
             while (menuRs.next()) {
@@ -224,17 +222,24 @@ public class OrderUI {
                 RenderSystem.printEmptyLine(2);
                 return;
             }
-
+            
             // (4) 회원번호 입력받기
             RenderSystem.printInputFormMessage("전화번호를 입력해주세요. (Q: 주문 종료 / 엔터: 비회원)");
             String customerId = sc.nextLine();
             RenderSystem.printEmptyLine(2);
+            
             
             // 입력 확인
             if (customerId.equals("q") || customerId.equals("Q") || customerId.equals("ㅂ")) {
 	        		return;
             }
             if (customerId.isBlank()) customerId = "비회원";
+            if(customerId.length() != 10) { //경준님이 만드신 함수로 print 변경해야함 x 모양 나오게
+            	System.out.print("잘못된 번호 형식입니다. \n주문을 종료합니다.");
+            	RenderSystem.printEmptyLine(2);
+            	return;
+            	}
+            
             
             // 회원이 비회원이 아니면 members 테이블에 존재하는지 확인, 없으면 추가
             if (!customerId.equals("비회원")) {
@@ -280,7 +285,7 @@ public class OrderUI {
             System.out.println(" ICE  여부 : " + (isIce ? "ICE" : "HOT"));
             System.out.println(" 쿠폰 사용 : " + (useCoupon ? "사용" : "사용 안 함"));
             RenderSystem.printDivider(RenderSystem.WIDTH, true);
-            
+
             // 입력 확인
             RenderSystem.printInputFormMessage("위 정보로 주문하시겠습니까? (y/n)");
             String confirm = sc.nextLine();
