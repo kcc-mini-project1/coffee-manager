@@ -238,14 +238,17 @@ public class OrderUI {
             if (customerId.equals("q") || customerId.equals("Q") || customerId.equals("ㅂ")) {
 	        		return;
             }
-            if (customerId.isBlank()) customerId = "비회원";
-            if(customerId.length() != 10) { //경준님이 만드신 함수로 print 변경해야함 x 모양 나오게
-            	System.out.print("잘못된 번호 형식입니다. \n주문을 종료합니다.");
+            
+            if(customerId.isBlank()) { //경준님이 만드신 함수로 print 변경해야함 : x 모양 나오게 ?!
+            	customerId = "비회원";
+            	System.out.print("전화번호를 입력하지 않았습니다. 비회원으로 스탬프 적립 X ");
             	renderSys.printEmptyLine(2);
-            	return;
+            	}else if(customerId.length() != 10){
+            		System.out.print("잘못된 번호 형식입니다. \n주문을 종료합니다.");
+                	renderSys.printEmptyLine(2);
+            		return;
             	}
-            
-            
+
             // 회원이 비회원이 아니면 members 테이블에 존재하는지 확인, 없으면 추가
             if (!customerId.equals("비회원")) {
             		if (!dao.isMemberExists(customerId)) {
