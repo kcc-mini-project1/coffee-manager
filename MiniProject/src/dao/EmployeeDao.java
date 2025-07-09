@@ -24,6 +24,21 @@ public class EmployeeDao {
 		}
 	}
 	
+	public ResultSet checkManager(Connection con, String id) {
+		try {
+			String sql = "SELECT "
+					+ "employee_id, manager_id "
+					+ "FROM employees "
+					+ "WHERE manager_id = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, Integer.parseInt(id));
+			return stmt.executeQuery();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
 	public ResultSet getEmployee(Connection con, String id) {
 		try {
 			String sql = "SELECT "
