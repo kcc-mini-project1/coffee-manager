@@ -71,7 +71,7 @@ public class EmployeeUI {
 					
 					// 입력 확인
 					if (inputTitle.equals("점장")) {
-						System.out.println("현재 점장으로는 등록할 수 없습니다.");
+						RenderSystem.printStatus("현재 점장으로는 등록할 수 없습니다.", false);
 						RenderSystem.printEmptyLine(2);
 					} else if (inputTitle.equals("매니저") || inputTitle.equals("알바")) {
 						break;
@@ -101,7 +101,7 @@ public class EmployeeUI {
 				
 				// 입력 확인
 				if (inputOK.equals("Y") || inputOK.equals("y") || inputOK.equals("ㅂ")) { break; }
-				System.out.println("직원 정보를 다시 입력해주세요.");
+				RenderSystem.printStatus("직원 정보를 다시 입력해주세요.", false);
 				RenderSystem.printEmptyLine(2);
 			}
 			
@@ -110,10 +110,10 @@ public class EmployeeUI {
 			
 			int successInsert = empDao.insertEmployee(con, inputName, inputPhoneNumber, inputTitle, inputSalary);
 			if (successInsert == 1) {
-				System.out.println("새로운 직원 정보 등록이 완료되었습니다.");
+				RenderSystem.printStatus("새로운 직원 정보 등록이 완료되었습니다.", true);
 				RenderSystem.printEmptyLine(2);
 			} else {
-				System.out.println("새로운 직원 정보 등록에 실패했습니다.");
+				RenderSystem.printStatus("새로운 직원 정보 등록에 실패했습니다.", false);
 				RenderSystem.printEmptyLine(2);
 			}
 		} catch (Exception e) {
@@ -202,7 +202,7 @@ public class EmployeeUI {
 				
 				// 수정할 직원 정보 조회 실패
 				if (!targetEmp.next()) { 
-					System.out.println("입력하신 ID의 직원이 존재하지 않습니다.");
+					RenderSystem.printStatus("입력하신 ID의 직원이 존재하지 않습니다.", false);
 					RenderSystem.printEmptyLine(2);
 					continue;
 				}
@@ -277,11 +277,11 @@ public class EmployeeUI {
 					
 					// 직원 정보 수정 성공시 탈출
 					if (successUpdate == 1) {
-						System.out.println("직원 정보 수정이 완료되었습니다.");
+						RenderSystem.printStatus("직원 정보 수정이 완료되었습니다.", true);
 						RenderSystem.printEmptyLine(2);
 						return;
 					} else {
-						System.out.println("직원 정보 수정에 실패했습니다.");
+						RenderSystem.printStatus("직원 정보 수정에 실패했습니다.", false);
 						RenderSystem.printEmptyLine(2);
 					}
 				}

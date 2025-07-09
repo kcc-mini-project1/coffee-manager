@@ -17,7 +17,6 @@ public class DataSource {
 	}
 	
 	public Connection getConnection() {
-		System.out.println("커넥션 가져오기"); // 지워야함
 		Connection con = null;
 		
 		try {

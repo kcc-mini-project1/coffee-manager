@@ -70,9 +70,7 @@ public class OrderUI {
 	
 	// 1. 메뉴판 보기
 	public void printMenuBoard() {
-		System.out.println("메뉴판 보기 메뉴 실행"); // 지워야함
 		List<MenuItem> menus = orderDao.getMenuItems();
-		System.out.println("메뉴판보기");
 		RenderSystem.printSubTitle(RenderSystem.WIDTH, "메뉴판");
         System.out.printf(" %-10s%-10s%-19s%-9s%-10s%-9s%-28s\n",
                 "대분류", "소분류", "메뉴명", "가격", "솔드아웃", "아이스", "메뉴설명");
@@ -206,7 +204,7 @@ public class OrderUI {
             while (menuRs.next()) {
                 String menu = menuRs.getString("menu_name");
                 int price = menuRs.getInt("price");
-                System.out.println("✔️ " + menu + " (" + price + "원)");
+                RenderSystem.printStatus(menu + " (" + price + "원)", true);
                 availableMenus.add(menu.toLowerCase());
             }
             RenderSystem.printDivider(RenderSystem.WIDTH, true);
@@ -299,7 +297,7 @@ public class OrderUI {
             		}
             		RenderSystem.printStatus("주문이 완료되었습니다.", true);
         		} else {
-        			System.out.println("주문 처리 중 오류가 발생했습니다.");
+        			RenderSystem.printStatus("주문 오류가 발생했습니다.", false);
     			}
             RenderSystem.printEmptyLine(2);
       } catch (SQLException e) {
@@ -369,7 +367,7 @@ public class OrderUI {
 
                 try (ResultSet rs = orderDao.getOrderById(orderId)) {
                     if (!rs.next()) {
-                        System.out.println("해당 주문 번호의 정보가 없습니다.");
+                    		RenderSystem.printStatus("해당 주문 번호의 정보가 없습니다.", false);
                         RenderSystem.printEmptyLine(2);
                         continue;
                     }
@@ -395,11 +393,13 @@ public class OrderUI {
                     int result = orderDao.deleteOrderById(orderId);
                     if (result > 0) {
                     		RenderSystem.printStatus("주문 취소가 완료되었습니다.", true);
+                    		RenderSystem.printEmptyLine(2);
                         break;
                     } else {
                     		RenderSystem.printStatus("주문 취소 처리 중 오류가 발생했습니다.", false);
+                    		RenderSystem.printEmptyLine(2);
                     }
-                    RenderSystem.printEmptyLine(2);
+                    
                 } catch (SQLException e) {
                 		RenderSystem.printStatus("주문 상세 조회 중 오류가 발생했습니다.", false);
                     RenderSystem.printEmptyLine(2);
@@ -407,7 +407,7 @@ public class OrderUI {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("주문 취소 중 오류가 발생했습니다.");
+        		RenderSystem.printStatus("주문 취소 중 오류가 발생했습니다.", false);
             RenderSystem.printEmptyLine(2);
             e.printStackTrace();
         }

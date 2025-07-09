@@ -18,9 +18,9 @@ public class Main {
 		while (run) {
             // 사용자 선택 화면
             RenderSystem.printTitle(RenderSystem.WIDTH, "카페 시스템");
-            System.out.println(" 1. 손님");
-            System.out.println(" 2. 직원");
-            System.out.println(" 3. 사장님");
+            System.out.println(" 1. 카페 손님");
+            System.out.println(" 2. 카페 직원");
+            System.out.println(" 3. 카페 점장");
             System.out.println(" Q. 프로그램 종료");
             RenderSystem.printDivider(RenderSystem.WIDTH, true);
             

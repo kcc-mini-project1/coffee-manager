@@ -9,13 +9,16 @@ import utils.RenderSystem;
 public class UserMenus {
     private Scanner sc;
     
+    public EmployeeMain empMain;
+    public OrderUI orderUI;
+    public MenuUI menuUI;
+    
     public UserMenus(Scanner sc) {
         this.sc = sc;
+        this.empMain = new EmployeeMain(sc);
+        this.orderUI = new OrderUI(sc);
+    		this.menuUI = new MenuUI(sc);
     }
-    
-	EmployeeMain empMain = new EmployeeMain(sc);
-	MenuUI menuUI = new MenuUI(sc);
-	OrderUI orderUI = new OrderUI(sc);
 	
     private static final String EMPLOYEE_PASSWORD = "employee";
     private static final String OWNER_PASSWORD = "owner";
@@ -27,12 +30,12 @@ public class UserMenus {
         RenderSystem.printEmptyLine(2);
         
         if (passwordInput.equals(password)) {
-            System.out.println("인증 성공!");
-            RenderSystem.printEmptyLine(1);
+        		RenderSystem.printStatus(role + " 인증이 성공되었습니다.", true);
+            RenderSystem.printEmptyLine(2);
             return true;
         } else {
-            System.out.println("비밀번호가 일치하지 않습니다.");
-            RenderSystem.printEmptyLine(1);
+    			RenderSystem.printStatus("비밀번호가 일치하지 않습니다.", false);
+            RenderSystem.printEmptyLine(2);
             return false;
         }
     }
@@ -67,7 +70,7 @@ public class UserMenus {
                 		try {
                         menuUI.start();
                     } catch (Exception e) {
-                        System.out.println("메뉴 관리 시스템 오류: " + e.getMessage());
+                			RenderSystem.printStatus("메뉴 관리 시스템 에러 발생", false);
                         e.printStackTrace();
                     }
                     break;
@@ -110,14 +113,14 @@ public class UserMenus {
 	            		try {
 	                    menuUI.start();
 	                } catch (Exception e) {
-	                    System.out.println("메뉴 관리 시스템 오류: " + e.getMessage());
+            				RenderSystem.printStatus("메뉴 관리 시스템 에러 발생", false);
 	                    e.printStackTrace();
 	                }
 	                break;
 	            	case "Q":
 	            	case "q":
 	         	case "ㅂ":
-	         		System.out.println("이전 메뉴로 돌아갑니다.");
+	         		RenderSystem.printStatus("이전 메뉴로 돌아갑니다.", true);
 	         		employeeRun = false;
 	                break;
 	            default:

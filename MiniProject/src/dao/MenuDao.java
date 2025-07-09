@@ -286,7 +286,6 @@ public class MenuDao {
 			
 			
 			if (updateRow == 0) {
-				System.out.println(targetMenu + " 메뉴 업데이트에 실패했습니다.");
 				throw new RuntimeException();
 			}
 			
